@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.gruppo.entities.Nazione;
 
@@ -13,6 +14,9 @@ public interface NazioneDAO extends JpaRepository<Nazione, String>{
     public List<String> findDistinctRegioni();
 	
 	public List<Nazione> findByPopolazioneBetween(double min, double max);
+	public List<Nazione> findByRegioneContaining(String nome);
+	
 	public List<Nazione> findByNomeContaining(String nome);
+	
 }
 
