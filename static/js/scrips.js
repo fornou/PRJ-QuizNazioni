@@ -26,3 +26,8 @@
                 continenti[nazione.regione].appendChild(img);
             })
         });
+        
+        
+        //--------------------MENU A TENDINA---------------
+   
+	
