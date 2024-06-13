@@ -1,0 +1,16 @@
+classe Domanda
+	- List<int> indiciRisposta
+	- int indiceCorretto
+	- Check (Boolean)
+
+	Costruttore(String tipo):
+		- Inizializzazione Oggetto Nazione
+		- Risposte Casuale
+	
+	Metodi:
+		- GeneraRisposte()
+		- CheckRispostaSelezionata() (Se è corretta Check = true)
+
+classe quiz
+	- Nome
+	- List<Domanda> domande
