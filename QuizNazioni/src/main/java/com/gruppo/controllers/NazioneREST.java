@@ -1,9 +1,9 @@
 package com.gruppo.controllers;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,12 +27,12 @@ public class NazioneREST {
 	
 	@GetMapping("nazioni/{code}")
     public ResponseEntity<Nazione> getCountryByCode(@PathVariable String code) {
-        Optional<Nazione> country = service.getNazioneByCode(code);
-        if (country.isPresent()) {
-            return ResponseEntity.ok(country.get());
-        } else {
-            return ResponseEntity.notFound().build();
+        Nazione country = service.getNazioneByCode(code);
+        if (country == null) {
+            new ResponseEntity<Nazione>(new Nazione(), HttpStatus.NOT_FOUND);
         }
+
+		return new ResponseEntity<Nazione>(country, HttpStatus.OK);
     }
 	
 	@GetMapping("nazioni/{minimo}/{massimo}")
