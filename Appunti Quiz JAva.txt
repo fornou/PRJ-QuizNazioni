@@ -1,16 +1,17 @@
+api: 
+	- nazioni/regione/{regione}/domanda
+	{
+		"NomeNazione": "",
+		"risposte": {
+			"1": "",
+			"2": "",
+			"3": "",
+			"4": ""
+		},
+		"corretta": "n"
+	}
+
 classe Domanda
-	- List<int> indiciRisposta
-	- int indiceCorretto
-	- Check (Boolean)
-
-	Costruttore(String tipo):
-		- Inizializzazione Oggetto Nazione
-		- Risposte Casuale
-	
-	Metodi:
-		- GeneraRisposte()
-		- CheckRispostaSelezionata() (Se è corretta Check = true)
-
-classe quiz
-	- Nome
-	- List<Domanda> domande
+	- NomeNazione
+	- List<String> risposte
+	- corretta
