@@ -1,15 +1,19 @@
-package com.prette.entities;
+package com.gruppo.entities;
 
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "nazioniquiz")
-public class Nazioni {
-
+@Table(name="nazioniquiz")
+public class Nazione {
 	
 	@Id
+	@Column(length = 2)
 	private String alphacod;
 	
 	private String nome;
@@ -18,11 +22,10 @@ public class Nazioni {
 	private int popolazione;
 	private String img;
 	
-	//getters e setters
-	public String getAlphacod() {
+	public String getAlphacode() {
 		return alphacod;
 	}
-	public void setAlphacod(String alphacod) {
+	public void setAlphacode(String alphacod) {
 		this.alphacod = alphacod;
 	}
 	public String getNome() {
@@ -57,6 +60,5 @@ public class Nazioni {
 	}
 	
 	
-	
-	
+
 }
