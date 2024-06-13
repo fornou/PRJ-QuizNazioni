@@ -11,5 +11,6 @@ public interface NazioniService {
 	public Nazione getNazioneByCode(String code);
 	public List<Nazione> getNazioneByNome(String nome);
 	public List<String> getRegioniDistinte();
+	public List<Nazione> getNazioniByRegione(String regione);
 	
 }

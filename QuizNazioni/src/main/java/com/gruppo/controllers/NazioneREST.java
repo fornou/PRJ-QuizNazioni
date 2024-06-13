@@ -35,6 +35,16 @@ public class NazioneREST {
 		return new ResponseEntity<Nazione>(country, HttpStatus.OK);
     }
 	
+	@GetMapping("nazioni/regione/{regione}")
+	public ResponseEntity<List<Nazione>> getNazioneByRegione(@PathVariable String regione){
+		List<Nazione> nazioneByRegione = service.getNazioniByRegione(regione);
+		
+		if(nazioneByRegione==null) {
+			new ResponseEntity<List<Nazione>>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<List<Nazione>>(nazioneByRegione, HttpStatus.OK);
+	}
+	
 	@GetMapping("nazioni/{minimo}/{massimo}")
 	public List<Nazione> getNazioneByPopolazione(@PathVariable("minimo") int min,@PathVariable("massimo") int max){
 		return service.getNazioniByPopolazione(min, max);

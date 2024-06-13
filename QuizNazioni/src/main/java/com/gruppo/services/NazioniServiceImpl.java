@@ -35,6 +35,11 @@ public class NazioniServiceImpl implements NazioniService{
 	}
 	
 	@Override
+	public List<Nazione> getNazioniByRegione(String nome) {
+		return dao.findByRegioneContaining(nome);
+	}
+	
+	@Override
 	public List<String> getRegioniDistinte() {
         return dao.findDistinctRegioni();
     }
