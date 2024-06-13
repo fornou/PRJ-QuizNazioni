@@ -15,3 +15,7 @@ classe Domanda
 	- NomeNazione
 	- List<String> risposte
 	- corretta
+
+class Quiz
+	- List<Domanda> domande
+	- punteggio
