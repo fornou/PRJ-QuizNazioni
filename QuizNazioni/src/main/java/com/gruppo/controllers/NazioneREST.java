@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.gruppo.entities.Domanda;
 import com.gruppo.entities.Nazione;
 import com.gruppo.services.NazioniService;
 
@@ -55,4 +56,13 @@ public class NazioneREST {
 		 return service.getRegioniDistinte();
 	}
 	
+	@GetMapping("nazioni/{regione}/domanda")
+	public ResponseEntity<Domanda> createDomanda(@PathVariable String regione) {
+        List<Nazione> nazioniByRegione = service.getNazioniByRegione(regione);
+
+		Domanda domanda = new Domanda(nazioniByRegione);
+
+		return new ResponseEntity<Domanda>(domanda, HttpStatus.OK);
+    }
+
 }
