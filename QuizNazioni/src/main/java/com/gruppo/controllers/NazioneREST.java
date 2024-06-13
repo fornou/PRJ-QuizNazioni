@@ -1,4 +1,5 @@
 package com.gruppo.controllers;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -17,10 +18,10 @@ import com.gruppo.services.NazioniService;
 public class NazioneREST {
 	
 	@Autowired
-	NazioniService service;
+	private NazioniService service;
 	
 	@GetMapping("nazioni")
-	List<Nazione>getNazioni(){
+	public List<Nazione>getNazioni(){
 		return service.getNazioni();
 	}
 	
@@ -35,7 +36,7 @@ public class NazioneREST {
     }
 	
 	@GetMapping("nazioni/{minimo}/{massimo}")
-	List<Nazione> getNazioneByPopolazione(@PathVariable("minimo") int min,@PathVariable("massimo") int max){
+	public List<Nazione> getNazioneByPopolazione(@PathVariable("minimo") int min,@PathVariable("massimo") int max){
 		return service.getNazioniByPopolazione(min, max);
 	}
 	
@@ -43,4 +44,5 @@ public class NazioneREST {
 	private List<String> getRegioniDistinte(){
 		 return service.getRegioniDistinte();
 	}
+	
 }

@@ -10,9 +10,9 @@ import com.gruppo.entities.Nazione;
 public interface NazioneDAO extends JpaRepository<Nazione, String>{
 	
 	@Query(value = "select distinct(regione) from nazioniquiz", nativeQuery = true)
-    List<String> findDistinctRegioni();
+    public List<String> findDistinctRegioni();
 	
-	List<Nazione> findByPopolazioneBetween(double min, double max);
-	List<Nazione> findByNomeContaining(String nome);
+	public List<Nazione> findByPopolazioneBetween(double min, double max);
+	public List<Nazione> findByNomeContaining(String nome);
 }
 
