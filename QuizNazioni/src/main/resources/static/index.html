@@ -1,44 +1,37 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="utf-8">
-<meta name="description" content="Free Web tutorials">
-<meta name="keywords" content="HTML, CSS, JavaScript">
-<meta name="author" content="John Doe">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="X-UA-Compatible" content="ie=edge">
-<!-- Script js -->
-<script type="text/javascript" src="js/ProvaScriptMenuTendina.js"></script>
-<script type="text/javascript" src="js/scrips.js"></script>
-<script type="text/javascript" src="js/ProvaScriptMenuBandiere.js"></script>
-<script type="text/javascript" src="js/ripasso.js"></script>
-<title>GeoQuiz</title>
-<link rel="stylesheet" href="/css/style.css">
-</head>
-<body>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="description" content="Free Web tutorials" />
+        <meta name="keywords" content="HTML, CSS, JavaScript" />
+        <meta name="author" content="John Doe" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <!-- Script js -->
+        <script type="text/javascript" src="js/menuDropdown.js"></script>
+        <script type="text/javascript" src="js/listaBandiere.js"></script>
+        <title>GeoQuiz</title>
+        <link rel="stylesheet" href="/css/style.css" />
+    </head>
+    <body>
+        <main>
+            <h1>Quiz nazioni</h1>
+            <nav class="form-nav">
+                <label>Seleziona regione capitali</label>
+                <select id="regioniDropdown">
+                    <option value="" disabled selected hidden>Scegli un continenete</option>
+                    <option>Mondo</option>
+                </select>
+                <label>Seleziona regione bandiere</label>
+                <select id="bandiereDropdown">
+                    <option value="" disabled selected hidden>Scegli un continenete</option>
+                    <option>Mondo</option>
+                </select>
+            </nav>
 
-	<main>
-
-        <h1>Quiz nazioni</h1>
-        <nav class="form-nav">
-
-            <label>Seleziona regione capitali</label> 
-            <select id="regioniDropdown">
-                <option value="" disabled selected hidden>Scegli un continenete</option>
-                <option>Mondo</option>
-            </select> 
-            <label>Seleziona regione bandiere</label> 
-            <select id="bandiereDropdown">
-                <option value="" disabled selected hidden>Scegli un continenete</option>
-                <option>Mondo</option>
-            </select>
-
-        </nav>
-
-        <button id="navigateButton">Vai alla pagina di ripasso</button> 
-
-    </main>
-
-
-</body>
+            <a href="api/ripasso">
+                <button id="navigateButton">Vai alla pagina di ripasso</button>
+            </a>
+        </main>
+    </body>
 </html>
