@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 var selectedRegion = dropdown.value;
 
                 // Reindirizza l'utente a domande.html con il parametro regione
-                window.location.href = `domande.html?regione=${encodeURIComponent(selectedRegion)}`;
+                window.location.href = `domande.html?regione=${encodeURIComponent(selectedRegion)}&tipo=${encodeURIComponent('capitali')}`;
             });
         })
         .catch(error => {
