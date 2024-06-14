@@ -11,7 +11,7 @@ public class Domanda {
     private String corretta;
     private boolean check;
 
-    public Domanda(List<Nazione> lista) {
+    public Domanda(List<Nazione> lista, boolean bandiere) {
         Random rand = new Random();
         risposte = new ArrayList<>();
 
@@ -21,12 +21,24 @@ public class Domanda {
             int n = rand.nextInt(lista.size());
             Nazione temp = lista.get(n);
 
-            this.risposte.add(temp.getCapitale());
-
+            if (!bandiere) {
+                this.risposte.add(temp.getCapitale());
+            } else {
+                this.risposte.add(temp.getImg());
+            }
+            
             if (i == sceltaCorretta) {
                 this.nomeNazione = temp.getNome();
-                this.corretta = temp.getCapitale();
+
+                if (!bandiere) {
+                    this.corretta = temp.getCapitale();
+                } else {
+                    this.corretta = temp.getImg();
+                }
+
             }
+
+            lista.remove(n);
         }
 
     }

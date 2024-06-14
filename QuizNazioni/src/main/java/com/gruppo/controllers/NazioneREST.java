@@ -58,22 +58,49 @@ public class NazioneREST {
 		return service.getRegioniDistinte();
 	}
 
-	@GetMapping("nazioni/{regione}/domanda")
-	public ResponseEntity<Domanda> createDomanda(@PathVariable String regione) {
+	@GetMapping("nazioni/{regione}/domanda/capitale")
+	public ResponseEntity<Domanda> createDomandaCapitale(@PathVariable String regione) {
 		List<Nazione> nazioniByRegione = service.getNazioniByRegione(regione);
 
-		Domanda domanda = new Domanda(nazioniByRegione);
+		Domanda domanda = new Domanda(nazioniByRegione, false);
 
 		return new ResponseEntity<Domanda>(domanda, HttpStatus.OK);
 	}
 
-	@GetMapping("nazioni/{regione}/domande")
-	public ResponseEntity<Quiz> getListaDomande(@PathVariable String regione) {
+	@GetMapping("nazioni/{regione}/domanda/bandiera")
+	public ResponseEntity<Domanda> createDomandaBandiera(@PathVariable String regione) {
+		List<Nazione> nazioniByRegione = service.getNazioniByRegione(regione);
+
+		Domanda domanda = new Domanda(nazioniByRegione, true);
+
+		return new ResponseEntity<Domanda>(domanda, HttpStatus.OK);
+	}
+
+	@GetMapping("nazioni/{regione}/domande/capitali")
+	public ResponseEntity<Quiz> getListaDomandeCapitali(@PathVariable String regione) {
 
 		List<Domanda> listaDomande = new ArrayList<Domanda>();
 
 		for (int i = 0; i < 10; i++) {
-			ResponseEntity<Domanda> response = createDomanda(regione);
+			ResponseEntity<Domanda> response = createDomandaCapitale(regione);
+			if (response.getStatusCode() == HttpStatus.OK) {
+				Domanda domanda = response.getBody();
+				listaDomande.add(domanda);
+			}
+		}
+
+		Quiz quiz = new Quiz(listaDomande, 0);
+
+		return new ResponseEntity<>(quiz, HttpStatus.OK);
+	}
+
+	@GetMapping("nazioni/{regione}/domande/bandiere")
+	public ResponseEntity<Quiz> getListaDomandeBandiere(@PathVariable String regione) {
+
+		List<Domanda> listaDomande = new ArrayList<Domanda>();
+
+		for (int i = 0; i < 10; i++) {
+			ResponseEntity<Domanda> response = createDomandaBandiera(regione);
 			if (response.getStatusCode() == HttpStatus.OK) {
 				Domanda domanda = response.getBody();
 				listaDomande.add(domanda);
