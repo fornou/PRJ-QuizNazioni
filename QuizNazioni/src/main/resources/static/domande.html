@@ -1,24 +1,89 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Domande per la Regione</title>
+    <title>Domande Quiz</title>
+    <style>
+        .correct { color: green; }
+        .incorrect { color: red; }
+    </style>
 </head>
 <body>
-    <h2>Domande per la regione selezionata</h2>
+    <h1>Domande per la regione</h1>
+    <div id="domanda-container"></div>
+    <button id="prev-button" disabled>Precedente</button>
+    <button id="next-button">Successiva</button>
 
     <script>
-        // Estrai il parametro regione dall'URL
-        const params = new URLSearchParams(window.location.search);
-        const regione = params.get('regione');
+        document.addEventListener("DOMContentLoaded", function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const regione = urlParams.get('regione');
+            let currentQuestionIndex = 0;
+            let domande = [];
 
-        // Esempio di utilizzo del parametro
-        if (regione) {
-            document.write(`<p>Stai visualizzando le domande per la regione: ${regione}</p>`);
-        } else {
-            document.write("<p>Non hai selezionato una regione specifica.</p>");
-        }
+            function showQuestion(index) {
+                const domandaContainer = document.getElementById('domanda-container');
+                if (domande.length > 0) {
+                    const domanda = domande[index];
+                    domandaContainer.innerHTML = `
+                        <h2>${domanda.nomeNazione}</h2>
+                        <ul id="risposte-list">
+                            ${domanda.risposte.map((risposta, i) => `<li><button onclick="checkAnswer(${index}, '${risposta}', this)">${risposta}</button></li>`).join('')}
+                        </ul>
+                        <div id="feedback"></div>
+                    `;
+                    document.getElementById('prev-button').disabled = index === 0;
+                    document.getElementById('next-button').disabled = index === domande.length - 1;
+                } else {
+                    domandaContainer.innerHTML = '<p>Nessuna domanda trovata per la regione specificata.</p>';
+                }
+            }
+
+            window.checkAnswer = function(index, risposta, button) {
+                const feedback = document.getElementById('feedback');
+                const correctAnswer = domande[index].corretta;
+                if (risposta === correctAnswer) {
+                    feedback.textContent = 'Corretto!';
+                    feedback.className = 'correct';
+                } else {
+                    feedback.textContent = `Sbagliato! La risposta corretta è: ${correctAnswer}`;
+                    feedback.className = 'incorrect';
+                }
+                // Disabilita tutti i pulsanti di risposta dopo la selezione
+                document.querySelectorAll('#risposte-list button').forEach(btn => btn.disabled = true);
+                button.style.fontWeight = 'bold';
+            }
+
+            if (regione) {
+                fetch(`http://localhost:9007/api/nazioni/${regione}/domande`)
+                    .then(response => response.json())
+                    .then(data => {
+                        domande = data.listaDomande || [];
+                        showQuestion(currentQuestionIndex);
+                    })
+                    .catch(error => {
+                        console.error('Errore durante il recupero delle domande:', error);
+                        document.getElementById('domanda-container').innerHTML = '<p>Si è verificato un errore durante il recupero delle domande. Riprova più tardi.</p>';
+                    });
+            } else {
+                document.getElementById('domanda-container').innerHTML = '<p>Parametro "regione" non trovato nell\'URL.</p>';
+            }
+
+            document.getElementById('prev-button').addEventListener('click', () => {
+                if (currentQuestionIndex > 0) {
+                    currentQuestionIndex--;
+                    showQuestion(currentQuestionIndex);
+                }
+            });
+
+            document.getElementById('next-button').addEventListener('click', () => {
+                if (currentQuestionIndex < domande.length - 1) {
+                    currentQuestionIndex++;
+                    showQuestion(currentQuestionIndex);
+                }
+            });
+        });
     </script>
 </body>
 </html>
