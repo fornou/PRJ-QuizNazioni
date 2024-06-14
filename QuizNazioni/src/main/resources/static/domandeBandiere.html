@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Domande per le bandiere </title>
+</head>
+<body>
+    <h2>Quiz bandiere della regione selezionata</h2>
+
+    <script>
+        // Estrai il parametro regione dall'URL
+        const params = new URLSearchParams(window.location.search);
+        const regione = params.get('regione');
+
+        // Esempio di utilizzo del parametro
+        if (regione) {
+            document.write(`<p>Stai visualizzando le domande per la regione: ${regione}</p>`);
+        } else {
+            document.write("<p>Non hai selezionato una regione specifica.</p>");
+        }
+    </script>
+</body>

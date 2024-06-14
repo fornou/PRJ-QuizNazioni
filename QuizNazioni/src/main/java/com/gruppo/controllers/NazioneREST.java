@@ -3,7 +3,9 @@ package com.gruppo.controllers;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +17,8 @@ import com.gruppo.entities.Domanda;
 import com.gruppo.entities.Nazione;
 import com.gruppo.entities.Quiz;
 import com.gruppo.services.NazioniService;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @RequestMapping("api")
@@ -91,6 +95,7 @@ public class NazioneREST {
 
 		Quiz quiz = new Quiz(listaDomande, 0);
 
+
 		return new ResponseEntity<>(quiz, HttpStatus.OK);
 	}
 
@@ -111,5 +116,13 @@ public class NazioneREST {
 
 		return new ResponseEntity<>(quiz, HttpStatus.OK);
 	}
+	
+	@GetMapping("ripasso")
+	public ResponseEntity<ClassPathResource> getPaginaRipasso(){
+		ClassPathResource resurce = new ClassPathResource("static/paginaRipasso.html");
+		return ResponseEntity.ok(resurce);
+	}
+
+
 
 }
