@@ -17,7 +17,6 @@ import com.gruppo.entities.Nazione;
 import com.gruppo.entities.Quiz;
 import com.gruppo.services.NazioniService;
 
-
 @RestController
 @RequestMapping("api")
 public class NazioneREST {
@@ -62,18 +61,30 @@ public class NazioneREST {
 
 	@GetMapping("nazioni/{regione}/domanda/capitale")
 	public ResponseEntity<Domanda> createDomandaCapitale(@PathVariable String regione) {
-		List<Nazione> nazioniByRegione = service.getNazioniByRegione(regione);
+		List<Nazione> listaNazioni;
 
-		Domanda domanda = new Domanda(nazioniByRegione, false);
+		if (!regione.equalsIgnoreCase("mondo")) {
+			listaNazioni = service.getNazioniByRegione(regione);
+		} else {
+			listaNazioni = getNazioni();
+		}
+
+		Domanda domanda = new Domanda(listaNazioni, false);
 
 		return new ResponseEntity<Domanda>(domanda, HttpStatus.OK);
 	}
 
 	@GetMapping("nazioni/{regione}/domanda/bandiera")
 	public ResponseEntity<Domanda> createDomandaBandiera(@PathVariable String regione) {
-		List<Nazione> nazioniByRegione = service.getNazioniByRegione(regione);
+		List<Nazione> listaNazioni;
 
-		Domanda domanda = new Domanda(nazioniByRegione, true);
+		if (!regione.equalsIgnoreCase("mondo")) {
+			listaNazioni = service.getNazioniByRegione(regione);
+		} else {
+			listaNazioni = getNazioni();
+		}
+
+		Domanda domanda = new Domanda(listaNazioni, true);
 
 		return new ResponseEntity<Domanda>(domanda, HttpStatus.OK);
 	}
@@ -92,7 +103,6 @@ public class NazioneREST {
 		}
 
 		Quiz quiz = new Quiz(listaDomande, 0);
-
 
 		return new ResponseEntity<>(quiz, HttpStatus.OK);
 	}
@@ -114,13 +124,11 @@ public class NazioneREST {
 
 		return new ResponseEntity<>(quiz, HttpStatus.OK);
 	}
-	
+
 	@GetMapping("ripasso")
-	public ResponseEntity<ClassPathResource> getPaginaRipasso(){
+	public ResponseEntity<ClassPathResource> getPaginaRipasso() {
 		ClassPathResource resurce = new ClassPathResource("static/paginaRipasso.html");
 		return ResponseEntity.ok(resurce);
 	}
-
-
 
 }
