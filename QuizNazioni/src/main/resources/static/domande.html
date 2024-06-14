@@ -21,20 +21,31 @@
             const regione = urlParams.get('regione');
             let currentQuestionIndex = 0;
             let domande = [];
+            let punteggio = 0;
 
             function showQuestion(index) {
                 const domandaContainer = document.getElementById('domanda-container');
                 if (domande.length > 0) {
                     const domanda = domande[index];
+
                     domandaContainer.innerHTML = `
-                        <h2>${domanda.nomeNazione}</h2>
+                        <h3>Punteggio: ${punteggio}/10</h3>
+                        <h2>${index + 1} | ${domanda.nomeNazione}</h2>
                         <ul id="risposte-list">
                             ${domanda.risposte.map((risposta, i) => `<li><button onclick="checkAnswer(${index}, '${risposta}', this)">${risposta}</button></li>`).join('')}
                         </ul>
                         <div id="feedback"></div>
                     `;
+
+                    console.log(domanda.rispostaData)
+                    if (domanda.rispostaData != undefined) {
+                        checkAnswer(index, domanda.rispostaData, this);
+                        console.log(domanda.rispostaData)
+                    }
+
                     document.getElementById('prev-button').disabled = index === 0;
                     document.getElementById('next-button').disabled = index === domande.length - 1;
+
                 } else {
                     domandaContainer.innerHTML = '<p>Nessuna domanda trovata per la regione specificata.</p>';
                 }
@@ -43,9 +54,16 @@
             window.checkAnswer = function(index, risposta, button) {
                 const feedback = document.getElementById('feedback');
                 const correctAnswer = domande[index].corretta;
+
+                domande[index].rispostaData = risposta;
+
+                console.log(domande[index])
+
                 if (risposta === correctAnswer) {
                     feedback.textContent = 'Corretto!';
                     feedback.className = 'correct';
+                    domande[index].check = true;
+                    punteggio += 1;
                 } else {
                     feedback.textContent = `Sbagliato! La risposta corretta è: ${correctAnswer}`;
                     feedback.className = 'incorrect';
@@ -56,7 +74,7 @@
             }
 
             if (regione) {
-                fetch(`http://localhost:9007/api/nazioni/${regione}/domande`)
+                fetch(`/api/nazioni/${regione}/domande`)
                     .then(response => response.json())
                     .then(data => {
                         domande = data.listaDomande || [];
