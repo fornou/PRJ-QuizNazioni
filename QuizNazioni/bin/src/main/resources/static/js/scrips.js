@@ -1,4 +1,4 @@
- /**
+/**
  * JavaScript for the index page ( simple create a container for img and view on the page)
  */
 
@@ -28,7 +28,6 @@
         });
         
         
-        //--------------------Clicco su img---------------
-   
+        //--------------------MENU A TENDINA---------------
    
 	
