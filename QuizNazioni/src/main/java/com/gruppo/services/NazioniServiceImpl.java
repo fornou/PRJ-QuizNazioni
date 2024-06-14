@@ -9,7 +9,7 @@ import com.gruppo.entities.Nazione;
 import com.gruppo.repos.NazioneDAO;
 
 @Service
-public class NazioniServiceImpl implements NazioniService{
+public class NazioniServiceImpl implements NazioniService {
 
 	@Autowired
 	private NazioneDAO dao;
@@ -26,30 +26,22 @@ public class NazioniServiceImpl implements NazioniService{
 
 	@Override
 	public Nazione getNazioneByCode(String code) {
-        return dao.findById(code).get();
-    }
-	
+		return dao.findById(code).get();
+	}
+
 	@Override
 	public List<Nazione> getNazioneByNome(String nome) {
 		return dao.findByNomeContaining(nome);
 	}
-	
+
 	@Override
 	public List<Nazione> getNazioniByRegione(String nome) {
 		return dao.findByRegioneContaining(nome);
 	}
-	
+
 	@Override
 	public List<String> getRegioniDistinte() {
-        return dao.findDistinctRegioni();
-    }
-	
+		return dao.findDistinctRegioni();
+	}
+
 }
-
-
-
-
-
-
-
-

@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 public class Domanda {
-    
+
     private String nomeNazione;
     private List<String> risposte;
     private String corretta;
@@ -17,22 +17,22 @@ public class Domanda {
 
         int sceltaCorretta = rand.nextInt(4);
 
-        for(int i = 0; i < 4; i++){
+        for (int i = 0; i < 4; i++) {
             int n = rand.nextInt(lista.size());
             Nazione temp = lista.get(n);
 
             this.risposte.add(temp.getCapitale());
 
-            if(i == sceltaCorretta) {
+            if (i == sceltaCorretta) {
                 this.nomeNazione = temp.getNome();
-                this.corretta = temp.getCapitale(); 
+                this.corretta = temp.getCapitale();
             }
         }
 
     }
 
     public boolean checkRisposta(String risposta) {
-        if (risposta == this.corretta){
+        if (risposta == this.corretta) {
             this.check = true;
             return true;
         }
@@ -44,24 +44,31 @@ public class Domanda {
     public boolean isCheck() {
         return check;
     }
+
     public void setCheck(boolean check) {
         this.check = check;
     }
+
     public String getNomeNazione() {
         return nomeNazione;
     }
+
     public void setNomeNazione(String nomeNazione) {
         this.nomeNazione = nomeNazione;
     }
+
     public List<String> getRisposte() {
         return risposte;
     }
+
     public void setRisposte(List<String> risposte) {
         this.risposte = risposte;
     }
+
     public String getCorretta() {
         return corretta;
     }
+
     public void setCorretta(String corretta) {
         this.corretta = corretta;
     }
