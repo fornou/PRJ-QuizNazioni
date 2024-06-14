@@ -3,7 +3,6 @@ package com.gruppo.controllers;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
@@ -17,7 +16,6 @@ import com.gruppo.entities.Domanda;
 import com.gruppo.entities.Nazione;
 import com.gruppo.entities.Quiz;
 import com.gruppo.services.NazioniService;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RestController
