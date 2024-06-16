@@ -14,16 +14,16 @@ public class Nazione {
 	private String alphacod;
 
 	private String nome;
-	private String regione;
+	private String continente;
 	private String capitale;
 	private int popolazione;
 	private String img;
 
-	public String getAlphacode() {
+	public String getAlphacod() {
 		return alphacod;
 	}
 
-	public void setAlphacode(String alphacod) {
+	public void setAlphacod(String alphacod) {
 		this.alphacod = alphacod;
 	}
 
@@ -35,12 +35,12 @@ public class Nazione {
 		this.nome = nome;
 	}
 
-	public String getRegione() {
-		return regione;
+	public String getContinente() {
+		return continente;
 	}
 
-	public void setRegione(String regione) {
-		this.regione = regione;
+	public void setContinente(String continente) {
+		this.continente = continente;
 	}
 
 	public String getCapitale() {

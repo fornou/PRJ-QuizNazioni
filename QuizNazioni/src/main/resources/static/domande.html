@@ -1,24 +1,28 @@
 <!DOCTYPE html>
 <html lang="it">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Domande Quiz</title>
-        <style>
-            .correct {
-                color: green;
-            }
-            .incorrect {
-                color: red;
-            }
-        </style>
-    </head>
-    <body>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GeoQuiz</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <main>
         <h1>Domande per la regione</h1>
         <div id="domanda-container"></div>
-        <button id="prev-button" disabled>Precedente</button>
-        <button id="next-button">Successiva</button>
+        
+        <nav class="form-nav">
+            <button id="prev-button">Precedente</button>
+            <button id="next-button">Successiva</button>
+        </nav>
+        
+    </main>
+    <a href="http://localhost:9050/">
+        <button id="back-home">HomePage</button>
+    </a>
+   
 
-        <script src="js/gestioneDomande.js"></script>
-    </body>
+    <script src="js/gestioneDomande.js"></script>
+
+</body>
 </html>

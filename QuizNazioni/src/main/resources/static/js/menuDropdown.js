@@ -1,9 +1,10 @@
 document.addEventListener("DOMContentLoaded", function() {
-    var dropdownBandiere = document.getElementById("bandiereDropdown");
-    var dropdownRegioni = document.getElementById("regioniDropdown");
-
-    // Effettua una chiamata FETCH per ottenere i dati delle regioni dal backend
+	
+    var sceltaModalita = document.getElementById("menu-mod");
+    var sceltaContinente = document.getElementById("menu-cont");
     const URL = "api/continenti";
+    
+    // Effettua una chiamata FETCH per ottenere i dati delle regioni dal backend
     fetch(URL)
         .then(response => {
             if (!response.ok) {
@@ -12,32 +13,20 @@ document.addEventListener("DOMContentLoaded", function() {
             return response.json();
         })
         .then(data => {
-            // Popola il menu a tendina con i dati ottenuti
-            data.forEach(regione => {
-                var option1 = document.createElement("option");
-                option1.text = regione;
-                option1.value = regione;
-                dropdownRegioni.appendChild(option1);
-            
-                var option2 = document.createElement("option");
-                option2.text = regione;
-                option2.value = regione;
-                dropdownBandiere.appendChild(option2);
+            // Popola il menu a tendina dell'elemento con l'id menu-cont con i nomi dei continenti
+            data.forEach(continente => {
+                var option = document.createElement("option");
+                option.text = continente;
+                option.value = continente;
+                sceltaContinente.appendChild(option);
             });
 
             // Aggiungi un evento di click al menu a tendina per reindirizzare a domande.html
-            dropdownRegioni.addEventListener("change", function() {
-                var selectedRegion = dropdownRegioni.value;
-
-                // Reindirizza l'utente a domande.html con il parametro regione
-                window.location.href = `domande.html?regione=${encodeURIComponent(selectedRegion)}&tipo=${encodeURIComponent('capitali')}`;
-            });
-
-            dropdownBandiere.addEventListener("change", function() {
-                var selectedRegion = dropdownBandiere.value;
-
-                // Reindirizza l'utente a domande.html con il parametro regione
-                window.location.href = `domande.html?regione=${encodeURIComponent(selectedRegion)}&tipo=${encodeURIComponent('bandiere')}`;
+            sceltaContinente.addEventListener("change", function() {
+                var selectedCont = sceltaContinente.value;
+				var selectedMod = sceltaModalita.value;
+                // Reindirizza l'utente a domande.html con il parametro continente
+                window.location.href = `domande.html?continente=${encodeURIComponent(selectedCont)}&tipo=${encodeURIComponent(selectedMod)}`;
             });
         })
         .catch(error => {

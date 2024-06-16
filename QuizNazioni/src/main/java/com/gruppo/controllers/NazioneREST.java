@@ -23,6 +23,11 @@ public class NazioneREST {
 
 	@Autowired
 	private NazioniService service;
+	
+	@GetMapping("continenti")
+	private List<String> getContinenti() {
+		return service.getContinenti();
+	}
 
 	@GetMapping("nazioni")
 	public List<Nazione> getNazioni() {
@@ -38,82 +43,49 @@ public class NazioneREST {
 
 		return new ResponseEntity<Nazione>(country, HttpStatus.OK);
 	}
-
-	@GetMapping("nazioni/regione/{regione}")
-	public ResponseEntity<List<Nazione>> getNazioneByRegione(@PathVariable String regione) {
-		List<Nazione> nazioneByRegione = service.getNazioniByRegione(regione);
-
-		if (nazioneByRegione == null) {
-			new ResponseEntity<List<Nazione>>(HttpStatus.NOT_FOUND);
-		}
-		return new ResponseEntity<List<Nazione>>(nazioneByRegione, HttpStatus.OK);
+	
+	@GetMapping("nazioni/img/{img}")
+	public Nazione getNazioneByImg(@PathVariable String img){
+		return service.getNazioneByImg(img);
 	}
+	
+	 @GetMapping("nazioni/continente/{continente}")
+    public ResponseEntity<List<Nazione>> getNazioneByContinente(@PathVariable String continente) {
+        List<Nazione> nazioniByContinente = service.getNazioniByContinente(continente);
+
+        if (nazioniByContinente == null || nazioniByContinente.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(nazioniByContinente, HttpStatus.OK);
+    }
 
 	@GetMapping("nazioni/popolazione/{minimo}/{massimo}")
 	public List<Nazione> getNazioneByPopolazione(@PathVariable("minimo") int min, @PathVariable("massimo") int max) {
 		return service.getNazioniByPopolazione(min, max);
 	}
 
-	@GetMapping("continenti")
-	private List<String> getRegioniDistinte() {
-		return service.getRegioniDistinte();
-	}
-
-	@GetMapping("nazioni/{regione}/domanda/capitale")
-	public ResponseEntity<Domanda> createDomandaCapitale(@PathVariable String regione) {
+	@GetMapping("nazioni/{continente}/domanda/{modalita}")
+	public ResponseEntity<Domanda> createDomanda(@PathVariable String continente, @PathVariable String modalita) {
 		List<Nazione> listaNazioni;
 
-		if (!regione.equalsIgnoreCase("mondo")) {
-			listaNazioni = service.getNazioniByRegione(regione);
+		if (!continente.equalsIgnoreCase("mondo")) {
+			listaNazioni = service.getNazioniByContinente(continente);
 		} else {
 			listaNazioni = getNazioni();
 		}
 
-		Domanda domanda = new Domanda(listaNazioni, false);
+		Domanda domanda = new Domanda(listaNazioni, modalita);
 
 		return new ResponseEntity<Domanda>(domanda, HttpStatus.OK);
 	}
 
-	@GetMapping("nazioni/{regione}/domanda/bandiera")
-	public ResponseEntity<Domanda> createDomandaBandiera(@PathVariable String regione) {
-		List<Nazione> listaNazioni;
-
-		if (!regione.equalsIgnoreCase("mondo")) {
-			listaNazioni = service.getNazioniByRegione(regione);
-		} else {
-			listaNazioni = getNazioni();
-		}
-
-		Domanda domanda = new Domanda(listaNazioni, true);
-
-		return new ResponseEntity<Domanda>(domanda, HttpStatus.OK);
-	}
-
-	@GetMapping("nazioni/{regione}/domande/capitali")
-	public ResponseEntity<Quiz> getListaDomandeCapitali(@PathVariable String regione) {
+	@GetMapping("nazioni/{continente}/domande/{modalita}")
+	public ResponseEntity<Quiz> getListaDomande(@PathVariable String continente, @PathVariable String modalita) {
 
 		List<Domanda> listaDomande = new ArrayList<Domanda>();
 
 		for (int i = 0; i < 10; i++) {
-			ResponseEntity<Domanda> response = createDomandaCapitale(regione);
-			if (response.getStatusCode() == HttpStatus.OK) {
-				Domanda domanda = response.getBody();
-				listaDomande.add(domanda);
-			}
-		}
-
-		Quiz quiz = new Quiz(listaDomande, 0);
-
-		return new ResponseEntity<>(quiz, HttpStatus.OK);
-	}
-
-	@GetMapping("nazioni/{regione}/domande/bandiere")
-	public ResponseEntity<Quiz> getListaDomandeBandiere(@PathVariable String regione) {
-
-		List<Domanda> listaDomande = new ArrayList<Domanda>();
-
-		for (int i = 0; i < 10; i++) {
-			ResponseEntity<Domanda> response = createDomandaBandiera(regione);
+			ResponseEntity<Domanda> response = createDomanda(continente, modalita);
 			if (response.getStatusCode() == HttpStatus.OK) {
 				Domanda domanda = response.getBody();
 				listaDomande.add(domanda);
@@ -130,5 +102,4 @@ public class NazioneREST {
 		ClassPathResource resurce = new ClassPathResource("static/paginaRipasso.html");
 		return ResponseEntity.ok(resurce);
 	}
-
 }

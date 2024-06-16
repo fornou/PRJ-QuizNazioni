@@ -4,7 +4,6 @@ fetch(URL)
     .then((risposta) => risposta.json())
     .then((listaNazioni) => {
         const continenti = {};
-
         // Creare i contenitori per ciascun continente
         listaNazioni.forEach((nazione) => {
             if (!continenti[nazione.regione]) {
@@ -18,7 +17,7 @@ fetch(URL)
             const img = document.createElement("img");
             img.src = nazione.img;
             img.alt = nazione.nome;
-            img.classList.add("resize-img"); // Aggiungi la classe CSS
+            img.classList.add("resize-img");
             continenti[nazione.regione].appendChild(img);
         });
     });

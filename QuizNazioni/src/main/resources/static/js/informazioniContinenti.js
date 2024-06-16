@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function() {
-    var dropdown = document.getElementById("bandiereDropdown");
+    var dropdown = document.getElementById("menu-cont");
     var nazioniContainer = document.getElementById("nazioniContainer");
     var nazioniData = []; // Array per memorizzare i dati delle nazioni
     var currentNazioneIndex = 0; // Indice del paese attualmente visualizzato
@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Funzione per fetchare le nazioni dato un continente
     function fetchNazioniByContinente(continent) {
-        const nazioniURL = `/api/nazioni/regione/${continent}`;
+        const nazioniURL = `/api/nazioni/continente/${continent}`;
         fetch(nazioniURL)
             .then(response => {
                 if (!response.ok) {

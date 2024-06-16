@@ -4,24 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/RipassoStyle.css">
+    <link rel="stylesheet" href="/css/style.css">
     <title>Domande Bandiere</title>
 </head>
 <body>
 
-    <h1>Ripasso</h1>
+    <main>
 
-    <label for="bandiereDropdown">Seleziona un continente:</label>
-    <select id="bandiereDropdown">
-        <option value="" disabled selected hidden>Scegli un continente</option>
-        <!-- Le opzioni del menu a tendina verranno aggiunte dinamicamente dal JavaScript -->
-    </select>
+        <h1>Ripasso</h1>
+        <nav class="form-nav">
+            <label>Seleziona continente</label>
+            <select id="menu-cont">
+                <option value="" disabled selected hidden>Scegli un continente</option>
+            </select>
+        </nav>
+    
+        <div id="nazioniContainer"></div>
+    
+        <a href="http://localhost:9050/">
+            <button id="back-home">HomePage</button>
+        </a>
 
-    <!-- Contenitore per visualizzare le informazioni delle nazioni -->
-    <div id="nazioniContainer">
-        <!-- La tabella delle nazioni verrà aggiunta dinamicamente qui -->
-    </div>
-
-    <script src="/js/informazioniContinenti.js"></script> <!-- Assicurati di includere il tuo file JavaScript qui -->
+    </main>
+    
+    <script src="/js/informazioniContinenti.js"></script>
 
 </body>
 </html>

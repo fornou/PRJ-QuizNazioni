@@ -9,13 +9,17 @@ import com.gruppo.entities.Nazione;
 
 public interface NazioneDAO extends JpaRepository<Nazione, String> {
 
-	@Query(value = "select distinct(regione) from nazioniquiz", nativeQuery = true)
-	public List<String> findDistinctRegioni();
+	@Query(value = "select distinct(continente) from nazioniquiz", nativeQuery = true)
+	public List<String> findDistinctContinente();
 
 	public List<Nazione> findByPopolazioneBetween(double min, double max);
 
-	public List<Nazione> findByRegioneContaining(String nome);
+	public List<Nazione> findByContinenteContaining(String continente);
 
 	public List<Nazione> findByNomeContaining(String nome);
+	
+	public Nazione findByImg(String img);
+	
+	public List<Nazione> findByContinente(String continente); 
 
 }

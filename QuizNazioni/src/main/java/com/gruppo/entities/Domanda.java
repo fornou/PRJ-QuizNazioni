@@ -11,29 +11,39 @@ public class Domanda {
     private String corretta;
     private boolean check;
 
-    public Domanda(List<Nazione> lista, boolean bandiere) {
+    public Domanda(List<Nazione> lista, String tipo) {
         Random rand = new Random();
         risposte = new ArrayList<>();
 
         int sceltaCorretta = rand.nextInt(4);
 
         for (int i = 0; i < 4; i++) {
+        	
             int n = rand.nextInt(lista.size());
             Nazione temp = lista.get(n);
-
-            if (!bandiere) {
-                this.risposte.add(temp.getCapitale());
-            } else {
-                this.risposte.add(temp.getImg());
+            
+            if (tipo.equals("capNaz")) { //Domanda -> nazione
+                this.risposte.add(temp.getCapitale()); //risposte -> capitali
+                
+            } else if(tipo.equals("bandNaz")){ //Domanda -> nazione
+                this.risposte.add(temp.getImg()); //Risposte -> immagini bandiere
+                
+            } else if(tipo.equals("nazBand")) { //Domanda -> immagine bandiera
+            	this.risposte.add(temp.getNome()); //risposte -> nazioni
             }
             
             if (i == sceltaCorretta) {
                 this.nomeNazione = temp.getNome();
 
-                if (!bandiere) {
+                if (tipo.equals("capNaz")) {
                     this.corretta = temp.getCapitale();
-                } else {
+                    
+                } else if(tipo.equals("bandNaz")){
                     this.corretta = temp.getImg();
+                    
+                }else if (tipo.equals("nazBand")) {
+                    this.nomeNazione = temp.getImg();
+                	this.corretta =temp.getNome();
                 }
 
             }

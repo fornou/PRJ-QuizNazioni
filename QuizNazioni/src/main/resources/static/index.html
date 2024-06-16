@@ -1,37 +1,42 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <meta name="description" content="Free Web tutorials" />
-        <meta name="keywords" content="HTML, CSS, JavaScript" />
-        <meta name="author" content="John Doe" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-        <!-- Script js -->
-        <script type="text/javascript" src="js/menuDropdown.js"></script>
-        <script type="text/javascript" src="js/listaBandiere.js"></script>
-        <title>GeoQuiz</title>
-        <link rel="stylesheet" href="/css/style.css" />
-    </head>
-    <body>
-        <main>
-            <h1>Quiz nazioni</h1>
-            <nav class="form-nav">
-                <label>Seleziona regione capitali</label>
-                <select id="regioniDropdown">
-                    <option value="" disabled selected hidden>Scegli un continenete</option>
-                    <option>Mondo</option>
-                </select>
-                <label>Seleziona regione bandiere</label>
-                <select id="bandiereDropdown">
-                    <option value="" disabled selected hidden>Scegli un continenete</option>
-                    <option>Mondo</option>
-                </select>
-            </nav>
+<head>
+     <meta charset="utf-8" />
+     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+     <title>GeoQuiz</title>
+     <link rel="stylesheet" href="/css/style.css"/>
+     </head>
+<body>
 
-            <a href="api/ripasso">
-                <button id="navigateButton">Vai alla pagina di ripasso</button>
-            </a>
-        </main>
-    </body>
+    <main>
+    
+        <h1>GeoQuiz</h1>
+        <nav class="form-nav">
+
+            <label>Seleziona modalità di gioco</label>
+            <select id="menu-mod">
+                <option value="" disabled selected hidden>Scegli una modalità</option>
+                <option value ="capNaz">Guessa capitale di nazione</option>
+                <option value ="bandNaz">Guessa bandiera di nazione</option>
+                <option value ="nazBand">Guessa nazione di bandiera</option>
+            </select>
+            
+            <label>Seleziona continente</label>
+            <select id="menu-cont">
+                <option value="" disabled selected hidden>Scegli un continente</option>
+                <option>Mondo</option>
+            </select>
+            
+        </nav>
+
+        <a href="api/ripasso">
+            <button id="navigateButton">Vai alla pagina di ripasso</button>
+        </a>
+        
+    </main>
+
+    <script type="text/javascript" src="js/menuDropdown.js"></script>
+    <script type="text/javascript" src="js/listaBandiere.js"></script>
+       
+</body>
 </html>

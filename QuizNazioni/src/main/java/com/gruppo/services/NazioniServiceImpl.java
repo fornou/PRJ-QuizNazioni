@@ -35,13 +35,18 @@ public class NazioniServiceImpl implements NazioniService {
 	}
 
 	@Override
-	public List<Nazione> getNazioniByRegione(String nome) {
-		return dao.findByRegioneContaining(nome);
+	public List<Nazione> getNazioniByContinente(String continente) {
+		return dao.findByContinente(continente);
 	}
 
 	@Override
-	public List<String> getRegioniDistinte() {
-		return dao.findDistinctRegioni();
+	public List<String> getContinenti() {
+		return dao.findDistinctContinente();
+	}
+
+	@Override
+	public Nazione getNazioneByImg(String img) {
+		return dao.findByImg(img);
 	}
 
 }
