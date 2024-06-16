@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     var dropdown = document.getElementById("menu-cont");
     var nazioniContainer = document.getElementById("nazioniContainer");
     var nazioniData = []; // Array per memorizzare i dati delle nazioni
@@ -6,30 +6,30 @@ document.addEventListener("DOMContentLoaded", function() {
 
     const continentURL = "/api/continenti";
     fetch(continentURL)
-        .then(response => {
+        .then((response) => {
             if (!response.ok) {
                 throw new Error(`Errore HTTP ${response.status} - ${response.statusText}`);
             }
             return response.json();
         })
-        .then(data => {
+        .then((data) => {
             console.log("Dati ricevuti:", data); // Output dei dati ricevuti dal backend
 
-            data.forEach(continent => {
+            data.forEach((continent) => {
                 var option = document.createElement("option");
                 option.text = continent;
                 option.value = continent;
                 dropdown.appendChild(option);
             });
 
-            dropdown.addEventListener("change", function() {
+            dropdown.addEventListener("change", function () {
                 var selectedContinent = dropdown.value;
                 console.log("Continente selezionato:", selectedContinent); // Output del continente selezionato
 
                 fetchNazioniByContinente(selectedContinent);
             });
         })
-        .catch(error => {
+        .catch((error) => {
             console.error("Errore durante la richiesta FETCH dei continenti:", error);
         });
 
@@ -37,13 +37,13 @@ document.addEventListener("DOMContentLoaded", function() {
     function fetchNazioniByContinente(continent) {
         const nazioniURL = `/api/nazioni/continente/${continent}`;
         fetch(nazioniURL)
-            .then(response => {
+            .then((response) => {
                 if (!response.ok) {
                     throw new Error(`Errore HTTP ${response.status} - ${response.statusText}`);
                 }
                 return response.json();
             })
-            .then(data => {
+            .then((data) => {
                 console.log("Dati delle nazioni:", data); // Output dei dati delle nazioni ricevuti dal backend
 
                 // Memorizza i dati delle nazioni nell'array
@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 // Mostra il primo paese
                 displayNazione(data[0]);
             })
-            .catch(error => {
+            .catch((error) => {
                 console.error("Errore durante la richiesta FETCH delle nazioni:", error);
             });
     }
@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", function() {
         var headerRow = table.insertRow();
         var headers = ["Nome", "Capitale", "Popolazione", "Bandiera"];
 
-        headers.forEach(headerText => {
+        headers.forEach((headerText) => {
             var header = document.createElement("th");
             header.textContent = headerText;
             headerRow.appendChild(header);
@@ -97,7 +97,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if (nazioniData.length > 1) {
             var prevButton = document.createElement("button");
             prevButton.textContent = "Precedente";
-            prevButton.addEventListener("click", function() {
+            prevButton.addEventListener("click", function () {
                 if (currentNazioneIndex > 0) {
                     currentNazioneIndex--;
                     displayNazione(nazioniData[currentNazioneIndex]);
@@ -106,7 +106,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             var nextButton = document.createElement("button");
             nextButton.textContent = "Successivo";
-            nextButton.addEventListener("click", function() {
+            nextButton.addEventListener("click", function () {
                 if (currentNazioneIndex < nazioniData.length - 1) {
                     currentNazioneIndex++;
                     displayNazione(nazioniData[currentNazioneIndex]);

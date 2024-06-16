@@ -23,7 +23,7 @@ public class NazioneREST {
 
 	@Autowired
 	private NazioniService service;
-	
+
 	@GetMapping("continenti")
 	private List<String> getContinenti() {
 		return service.getContinenti();
@@ -43,21 +43,21 @@ public class NazioneREST {
 
 		return new ResponseEntity<Nazione>(country, HttpStatus.OK);
 	}
-	
+
 	@GetMapping("nazioni/img/{img}")
-	public Nazione getNazioneByImg(@PathVariable String img){
+	public Nazione getNazioneByImg(@PathVariable String img) {
 		return service.getNazioneByImg(img);
 	}
-	
-	 @GetMapping("nazioni/continente/{continente}")
-    public ResponseEntity<List<Nazione>> getNazioneByContinente(@PathVariable String continente) {
-        List<Nazione> nazioniByContinente = service.getNazioniByContinente(continente);
 
-        if (nazioniByContinente == null || nazioniByContinente.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(nazioniByContinente, HttpStatus.OK);
-    }
+	@GetMapping("nazioni/continente/{continente}")
+	public ResponseEntity<List<Nazione>> getNazioneByContinente(@PathVariable String continente) {
+		List<Nazione> nazioniByContinente = service.getNazioniByContinente(continente);
+
+		if (nazioniByContinente == null || nazioniByContinente.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<>(nazioniByContinente, HttpStatus.OK);
+	}
 
 	@GetMapping("nazioni/popolazione/{minimo}/{massimo}")
 	public List<Nazione> getNazioneByPopolazione(@PathVariable("minimo") int min, @PathVariable("massimo") int max) {
@@ -99,7 +99,7 @@ public class NazioneREST {
 
 	@GetMapping("ripasso")
 	public ResponseEntity<ClassPathResource> getPaginaRipasso() {
-		ClassPathResource resurce = new ClassPathResource("static/paginaRipasso.html");
+		ClassPathResource resurce = new ClassPathResource("static/ripasso.html");
 		return ResponseEntity.ok(resurce);
 	}
 }

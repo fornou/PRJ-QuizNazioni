@@ -1,6 +1,6 @@
 @charset "UTF-8";
-img{
-	width: 150px; /* Larghezza fissa per tutte le immagini */
+img {
+    width: 150px; /* Larghezza fissa per tutte le immagini */
     height: 100px; /* Altezza fissa per tutte le immagini */
     object-fit: contain; /* Adatta l'immagine al contenitore senza ritagliare */
     border: 3px solid black; /* Bordo di 1px */
@@ -71,7 +71,7 @@ nav select {
 }
 
 nav select:focus {
-    border-color: #007BFF;
+    border-color: #007bff;
     outline: none;
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
@@ -101,7 +101,8 @@ table {
     margin-bottom: 20px;
 }
 
-table th, table td {
+table th,
+table td {
     padding: 8px;
     text-align: left;
     border-bottom: 1px solid #ddd;
@@ -128,11 +129,10 @@ button:hover {
     background-color: #0056b3;
 }
 
-
-#domanda-container, a{
+#domanda-container,
+a {
     text-align: center;
 }
-ul li{
-    list-style-type:  none;
+ul li {
+    list-style-type: none;
 }
-

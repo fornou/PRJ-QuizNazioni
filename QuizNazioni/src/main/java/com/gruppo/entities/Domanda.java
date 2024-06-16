@@ -18,32 +18,44 @@ public class Domanda {
         int sceltaCorretta = rand.nextInt(4);
 
         for (int i = 0; i < 4; i++) {
-        	
             int n = rand.nextInt(lista.size());
             Nazione temp = lista.get(n);
-            
-            if (tipo.equals("capNaz")) { //Domanda -> nazione
-                this.risposte.add(temp.getCapitale()); //risposte -> capitali
-                
-            } else if(tipo.equals("bandNaz")){ //Domanda -> nazione
-                this.risposte.add(temp.getImg()); //Risposte -> immagini bandiere
-                
-            } else if(tipo.equals("nazBand")) { //Domanda -> immagine bandiera
-            	this.risposte.add(temp.getNome()); //risposte -> nazioni
-            }
-            
-            if (i == sceltaCorretta) {
-                this.nomeNazione = temp.getNome();
 
-                if (tipo.equals("capNaz")) {
-                    this.corretta = temp.getCapitale();
-                    
-                } else if(tipo.equals("bandNaz")){
-                    this.corretta = temp.getImg();
-                    
-                }else if (tipo.equals("nazBand")) {
-                    this.nomeNazione = temp.getImg();
-                	this.corretta =temp.getNome();
+            switch (tipo) {
+                case "capNaz": // Domanda -> nazione
+                    this.risposte.add(temp.getCapitale()); // risposte -> capitali
+                    break;
+                case "bandNaz": // Domanda -> nazione
+                    this.risposte.add(temp.getImg()); // Risposte -> immagini bandiere
+                    break;
+                case "nazBand": // Domanda -> immagine bandiera
+                    this.risposte.add(temp.getNome()); // risposte -> nazioni
+                    break;
+
+                default:
+                    this.risposte.add("errore");
+                    break;
+            }
+
+            if (i == sceltaCorretta) {
+                switch (tipo) {
+                    case "capNaz":
+                        this.nomeNazione = temp.getNome();
+                        this.corretta = temp.getCapitale();
+                        break;
+                    case "bandNaz":
+                        this.nomeNazione = temp.getNome();
+                        this.corretta = temp.getImg();
+                        break;
+                    case "nazBand":
+                        this.nomeNazione = temp.getImg();
+                        this.corretta = temp.getNome();
+                        break;
+
+                    default:
+                        this.nomeNazione = "errore";
+                        this.corretta = "errore";
+                        break;
                 }
 
             }
@@ -51,16 +63,6 @@ public class Domanda {
             lista.remove(n);
         }
 
-    }
-
-    public boolean checkRisposta(String risposta) {
-        if (risposta == this.corretta) {
-            this.check = true;
-            return true;
-        }
-
-        this.check = false;
-        return false;
     }
 
     public boolean isCheck() {

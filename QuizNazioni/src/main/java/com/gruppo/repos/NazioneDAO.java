@@ -17,9 +17,9 @@ public interface NazioneDAO extends JpaRepository<Nazione, String> {
 	public List<Nazione> findByContinenteContaining(String continente);
 
 	public List<Nazione> findByNomeContaining(String nome);
-	
+
 	public Nazione findByImg(String img);
-	
-	public List<Nazione> findByContinente(String continente); 
+
+	public List<Nazione> findByContinente(String continente);
 
 }

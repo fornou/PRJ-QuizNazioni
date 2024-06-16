@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (domande.length > 0) {
             const domanda = domande[index];
-            console.log(domanda)
+            console.log(domanda);
 
             if (tipo === "bandNaz") {
                 domandaContainer.innerHTML = `
@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     <br>
                     <div id="feedback"></div>
                 `;
-            } else if(tipo === "capNaz"){
+            } else if (tipo === "capNaz") {
                 domandaContainer.innerHTML = `
                     <h3>Punteggio: ${punteggio}/10</h3>
                     <h2>${index + 1} | ${domanda.nomeNazione}</h2>
@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     <br>
                     <div id="feedback"></div>
                 `;
-            }else if(tipo==="nazBand"){
+            } else if (tipo === "nazBand") {
                 const answerImg = document.createElement("img");
                 answerImg.src = domanda.nomeNazione;
                 domandaContainer.innerHTML = `
@@ -64,23 +64,20 @@ document.addEventListener("DOMContentLoaded", function () {
         const feedback = document.getElementById("feedback");
         const correctAnswer = domande[index].corretta;
         const correctImg = document.createElement("img");
-        correctImg.src = domande[index].corretta
+        correctImg.src = domande[index].corretta;
 
         if (risposta === correctAnswer) {
             feedback.textContent = "Corretto!";
             feedback.className = "correct";
             domande[index].check = true;
         } else {
-            if (tipo === "nazBand") {
+            if (tipo === "nazBand" || tipo === "capNaz") {
                 //TODO: messaggio errore bandiere
                 feedback.textContent = `Sbagliato! La risposta corretta è: ${correctAnswer}`;
                 feedback.className = "incorrect";
-            } else if(tipo==="bandNaz"){
+            } else if (tipo === "bandNaz") {
                 feedback.textContent = `Sbagliato! La risposta corretta è:`;
                 feedback.appendChild(correctImg);
-                feedback.className = "incorrect";
-            }else if(tipo==="capNaz"){
-                feedback.textContent = `Sbagliato! La risposta corretta è: ${correctAnswer}`;
                 feedback.className = "incorrect";
             }
         }
