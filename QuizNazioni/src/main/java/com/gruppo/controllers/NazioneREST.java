@@ -24,6 +24,8 @@ public class NazioneREST {
 	@Autowired
 	private NazioniService service;
 
+	//---------------------------------------------------------
+	//bisogna vedere bene il mappign con le response entities per questi due metodi siccome poi interferiscono con altri 
 	@GetMapping("continenti")
 	private List<String> getContinenti() {
 		return service.getContinenti();
@@ -33,7 +35,7 @@ public class NazioneREST {
 	public List<Nazione> getNazioni() {
 		return service.getNazioni();
 	}
-
+	//---------------------------------------------------------
 	@GetMapping("nazioni/alphacod/{code}")
 	public ResponseEntity<Nazione> getCountryByCode(@PathVariable String code) {
 		Nazione country = service.getNazioneByCode(code);
@@ -45,8 +47,13 @@ public class NazioneREST {
 	}
 
 	@GetMapping("nazioni/img/{img}")
-	public Nazione getNazioneByImg(@PathVariable String img) {
-		return service.getNazioneByImg(img);
+	public ResponseEntity<Nazione>  getNazioneByImg(@PathVariable String img) {
+		Nazione immagine = service.getNazioneByImg(img);
+		if(immagine == null) {
+			new ResponseEntity<Nazione>(new Nazione(),HttpStatus.NOT_FOUND);
+		}
+		
+		return new ResponseEntity<Nazione>(immagine,HttpStatus.OK);
 	}
 
 	@GetMapping("nazioni/continente/{continente}")
@@ -60,8 +67,13 @@ public class NazioneREST {
 	}
 
 	@GetMapping("nazioni/popolazione/{minimo}/{massimo}")
-	public List<Nazione> getNazioneByPopolazione(@PathVariable("minimo") int min, @PathVariable("massimo") int max) {
-		return service.getNazioniByPopolazione(min, max);
+	public ResponseEntity<List<Nazione> > getNazioneByPopolazione(@PathVariable("minimo") int min, @PathVariable("massimo") int max) {
+		List<Nazione> minMax =  service.getNazioniByPopolazione(min, max);
+		if(minMax == null || minMax.isEmpty()) {
+			return new ResponseEntity<List<Nazione>>(HttpStatus.NOT_FOUND);
+		}
+		
+		return new ResponseEntity<List<Nazione>>(minMax,HttpStatus.OK);
 	}
 
 	@GetMapping("nazioni/{continente}/domanda/{modalita}")
