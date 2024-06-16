@@ -99,7 +99,7 @@ public class NazioneREST {
 
 	@GetMapping("ripasso")
 	public ResponseEntity<ClassPathResource> getPaginaRipasso() {
-		ClassPathResource resurce = new ClassPathResource("static/ripasso.html");
+		ClassPathResource resurce = new ClassPathResource("/static/ripasso.html");
 		return ResponseEntity.ok(resurce);
 	}
 }
