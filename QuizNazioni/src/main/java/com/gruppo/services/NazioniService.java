@@ -19,5 +19,7 @@ public interface NazioniService {
 	public List<Nazione> getNazioneByNome(String nome);
 
 	public List<Nazione> getNazioniByContinente(String continente);
+	
+	public List<String> getNomePopolazioneByContinente(String continente);
 
 }

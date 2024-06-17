@@ -49,4 +49,10 @@ public class NazioniServiceImpl implements NazioniService {
 		return dao.findByImg(img);
 	}
 
+	@Override
+	public List<String> getNomePopolazioneByContinente(String continente) {
+		// TODO Auto-generated method stub
+		return dao.findNomePopolazioneByContinente(continente);
+	}
+
 }

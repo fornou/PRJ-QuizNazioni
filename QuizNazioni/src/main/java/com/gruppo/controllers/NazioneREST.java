@@ -118,4 +118,14 @@ public class NazioneREST {
 		ClassPathResource resurce = new ClassPathResource("/static/ripasso.html");
 		return ResponseEntity.ok(resurce);
 	}
+	
+	@GetMapping("nazioni/continente/popolazione/{continente}")
+	public ResponseEntity<List<String>> getPopolazioneByContinente(@PathVariable String continente){
+		List<String> listaPopo = service.getNomePopolazioneByContinente(continente);
+		if(listaPopo == null) {
+			new ResponseEntity<List<String>>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<List<String>>(listaPopo,HttpStatus.OK);
+	}
+	
 }
