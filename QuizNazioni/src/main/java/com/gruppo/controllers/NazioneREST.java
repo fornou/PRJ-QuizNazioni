@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gruppo.entities.Domanda;
+import com.gruppo.entities.Memory;
 import com.gruppo.entities.Nazione;
 import com.gruppo.entities.Quiz;
 import com.gruppo.services.NazioniService;
@@ -90,6 +91,14 @@ public class NazioneREST {
 		return new ResponseEntity<List<Nazione>>(minMax, HttpStatus.OK);
 	}
 
+	@GetMapping("nazioni/memory")
+	public ResponseEntity<Memory> createMemory(){
+		List<Nazione> listaNazioni = getNazioni();
+		Memory memory = new Memory(listaNazioni);
+		memory.getRisposteMescolate();
+		return new ResponseEntity<Memory>(memory, HttpStatus.OK);
+	}
+
 	@GetMapping("nazioni/{continente}/domanda/{modalita}")
 	public ResponseEntity<Domanda> createDomanda(@PathVariable String continente, @PathVariable String modalita) {
 		List<Nazione> listaNazioni;
@@ -126,6 +135,13 @@ public class NazioneREST {
 	@GetMapping("ripasso")
 	public ResponseEntity<ClassPathResource> getPaginaRipasso() {
 		ClassPathResource resurce = new ClassPathResource("/static/ripasso.html");
+		return ResponseEntity.ok(resurce);
+	}
+
+
+	@GetMapping("memory")
+	public ResponseEntity<ClassPathResource> getPaginaMemory() {
+		ClassPathResource resurce = new ClassPathResource("/static/memory.html");
 		return ResponseEntity.ok(resurce);
 	}
 
