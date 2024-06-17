@@ -20,10 +20,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 <span class="badge bg-primary">${index + 1}/10</span>
             </div>
             <div class="col">
-                <span class="badge bg-success">Corrette: ${corrette}</span>
+                <span class="badge bg-success" id="corrette">Corrette: ${corrette}</span>
             </div>
             <div class="col">
-                <span class="badge bg-danger">Errate: ${errate}</span>
+                <span class="badge bg-danger" id="errate">Errate: ${errate}</span>
             </div>
         </div>
         `;
@@ -111,14 +111,28 @@ document.addEventListener("DOMContentLoaded", function () {
             if (domande[index].check) {
                 punteggio += 1;
                 corrette += 1;
+                const divCorrette = document.getElementById("corrette");
+                divCorrette.textContent = `Corrette: ${corrette}`;
             } else {
                 errate += 1;
+                const divErrate = document.getElementById("errate");
+                divErrate.textContent = `Errate: ${errate}`;
             }
         }
 
         // Disabilita tutti i pulsanti di risposta dopo la selezione
-        document.querySelectorAll("#risposte-list button").forEach((btn) => (btn.disabled = true));
-        button.style.fontWeight = "bold";
+        document.querySelectorAll("#risposte-list button").forEach((btn) => {
+            btn.disabled = true;
+            if (btn.textContent == domande[index].rispostaData) {
+                if (domande[index].check) {
+                    btn.className = "btn btn-success";
+                    btn.style.fontWeight = "bold";
+                } else {
+                    btn.className = "btn btn-danger";
+                    btn.style.fontWeight = "bold";
+                }
+            }
+        });
     };
 
     if (continente) {
