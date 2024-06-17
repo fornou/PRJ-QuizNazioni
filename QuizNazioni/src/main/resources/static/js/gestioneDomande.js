@@ -79,7 +79,7 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("prev-button").disabled = index === 0;
             document.getElementById("next-button").disabled = index === domande.length - 1;
         } else {
-            domandaContainer.innerHTML = "<p>Nessuna domanda trovata per la continente specificata.</p>";
+            domandaContainer.innerHTML = "<p>Nessuna domanda trovata per il continente specificato.</p>";
         }
     }
 
