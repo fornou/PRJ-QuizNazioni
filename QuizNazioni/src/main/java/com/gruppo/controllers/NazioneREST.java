@@ -24,29 +24,31 @@ public class NazioneREST {
 	@Autowired
 	private NazioniService service;
 
-	//---------------------------------------------------------
-	//bisogna vedere bene il mappign con le response entities per questi due metodi siccome poi interferiscono con altri 
-	
-	//quuesto metoodo fatto con la response entities non fa funzionare i vari js 
-//	@GetMapping("continenti")
-//	private ResponseEntity<List<String>>  getContinenti() {
-//		List<String> continenti =  service.getContinenti();
-//		if(continenti == null || continenti.isEmpty()) {
-//			new ResponseEntity<List<String>>(HttpStatus.NOT_FOUND);
-//		}
-//		return new ResponseEntity<List<String>>(continenti,HttpStatus.FOUND);
-//	}
-	
+	// ---------------------------------------------------------
+	// bisogna vedere bene il mappign con le response entities per questi due metodi
+	// siccome poi interferiscono con altri
+
+	// quuesto metoodo fatto con la response entities non fa funzionare i vari js
+	// @GetMapping("continenti")
+	// private ResponseEntity<List<String>> getContinenti() {
+	// List<String> continenti = service.getContinenti();
+	// if(continenti == null || continenti.isEmpty()) {
+	// new ResponseEntity<List<String>>(HttpStatus.NOT_FOUND);
+	// }
+	// return new ResponseEntity<List<String>>(continenti,HttpStatus.FOUND);
+	// }
+
 	@GetMapping("continenti")
-	private List<String> getContinenti(){
+	private List<String> getContinenti() {
 		return service.getContinenti();
 	}
-	
+
 	@GetMapping("nazioni")
 	public List<Nazione> getNazioni() {
 		return service.getNazioni();
 	}
-	//---------------------------------------------------------
+
+	// ---------------------------------------------------------
 	@GetMapping("nazioni/alphacod/{code}")
 	public ResponseEntity<Nazione> getCountryByCode(@PathVariable String code) {
 		Nazione country = service.getNazioneByCode(code);
@@ -58,13 +60,13 @@ public class NazioneREST {
 	}
 
 	@GetMapping("nazioni/img/{img}")
-	public ResponseEntity<Nazione>  getNazioneByImg(@PathVariable String img) {
+	public ResponseEntity<Nazione> getNazioneByImg(@PathVariable String img) {
 		Nazione immagine = service.getNazioneByImg(img);
-		if(immagine == null) {
-			new ResponseEntity<Nazione>(new Nazione(),HttpStatus.NOT_FOUND);
+		if (immagine == null) {
+			new ResponseEntity<Nazione>(new Nazione(), HttpStatus.NOT_FOUND);
 		}
-		
-		return new ResponseEntity<Nazione>(immagine,HttpStatus.OK);
+
+		return new ResponseEntity<Nazione>(immagine, HttpStatus.OK);
 	}
 
 	@GetMapping("nazioni/continente/{continente}")
@@ -78,13 +80,14 @@ public class NazioneREST {
 	}
 
 	@GetMapping("nazioni/popolazione/{minimo}/{massimo}")
-	public ResponseEntity<List<Nazione> > getNazioneByPopolazione(@PathVariable("minimo") int min, @PathVariable("massimo") int max) {
-		List<Nazione> minMax =  service.getNazioniByPopolazione(min, max);
-		if(minMax == null || minMax.isEmpty()) {
+	public ResponseEntity<List<Nazione>> getNazioneByPopolazione(@PathVariable("minimo") int min,
+			@PathVariable("massimo") int max) {
+		List<Nazione> minMax = service.getNazioniByPopolazione(min, max);
+		if (minMax == null || minMax.isEmpty()) {
 			return new ResponseEntity<List<Nazione>>(HttpStatus.NOT_FOUND);
 		}
-		
-		return new ResponseEntity<List<Nazione>>(minMax,HttpStatus.OK);
+
+		return new ResponseEntity<List<Nazione>>(minMax, HttpStatus.OK);
 	}
 
 	@GetMapping("nazioni/{continente}/domanda/{modalita}")
@@ -125,14 +128,14 @@ public class NazioneREST {
 		ClassPathResource resurce = new ClassPathResource("/static/ripasso.html");
 		return ResponseEntity.ok(resurce);
 	}
-	
+
 	@GetMapping("nazioni/continente/popolazione/{continente}")
-	public ResponseEntity<List<String>> getPopolazioneByContinente(@PathVariable String continente){
+	public ResponseEntity<List<String>> getPopolazioneByContinente(@PathVariable String continente) {
 		List<String> listaPopo = service.getNomePopolazioneByContinente(continente);
-		if(listaPopo == null) {
+		if (listaPopo == null) {
 			new ResponseEntity<List<String>>(HttpStatus.NOT_FOUND);
 		}
-		return new ResponseEntity<List<String>>(listaPopo,HttpStatus.OK);
+		return new ResponseEntity<List<String>>(listaPopo, HttpStatus.OK);
 	}
-	
+
 }

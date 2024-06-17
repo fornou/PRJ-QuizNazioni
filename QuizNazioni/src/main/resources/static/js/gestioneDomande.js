@@ -1,53 +1,76 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const parametri_url = new URLSearchParams(window.location.search);
-    const continente = parametri_url.get("continente");
-    const tipo = parametri_url.get("tipo");
+    const parametriUrl = new URLSearchParams(window.location.search);
+    const continente = parametriUrl.get("continente");
+    const tipo = parametriUrl.get("tipo");
     let currentQuestionIndex = 0;
     let domande = [];
     let punteggio = 0;
+    let corrette = 0;
+    let errate = 0;
+
+    const titolo = document.getElementById("titolo");
+    titolo.textContent += continente;
 
     function mostraDomanda(index) {
         const domandaContainer = document.getElementById("domanda-container");
 
+        let headerDomanda = `
+        <div class="row">
+            <div class="col">
+                <span class="badge bg-primary">${index + 1}/10</span>
+            </div>
+            <div class="col">
+                <span class="badge bg-success">Corrette: ${corrette}</span>
+            </div>
+            <div class="col">
+                <span class="badge bg-danger">Errate: ${errate}</span>
+            </div>
+        </div>
+        `;
+
         if (domande.length > 0) {
             const domanda = domande[index];
-            console.log(domanda);
+            // console.log(domanda);
 
             if (tipo === "bandNaz") {
-                domandaContainer.innerHTML = `
-                    <h3>Punteggio: ${punteggio}/10</h3>
-                    <h2>${index + 1} | ${domanda.nomeNazione}</h2>
-                    <ul id="risposte-list">
-                        ${domanda.risposte.map((risposta, i) => `<li><button onclick="checkRisposta(${index}, '${risposta}', this)" style="background-image: url('${risposta}');  width: 150px; height: 100px; background-repeat: no-repeat; object-fit: contain; background-position: center;"></button></li>`).join("")}
-                    </ul>
-                    <br>
-                    <div id="feedback"></div>
+                headerDomanda += `
+                    <div class="row">
+                        <div class="col">
+                            <h3 class="m-4"> ${domanda.nomeNazione}</h3>
+                        </div>
+                    </div>
+
+                    <div class="row" id="risposte-list">
+                        ${domanda.risposte.map((risposta, i) => `<div class="col-6"><button class="btn" onclick="checkRisposta(${index}, '${risposta}', this)" style="background-image: url('${risposta}');  width: 256px; height: 192px; background-repeat: no-repeat; object-fit: contain; background-position: center; transform: scale(0.5);"></button></div>`).join("")}
+                    </div> 
                 `;
             } else if (tipo === "capNaz") {
-                domandaContainer.innerHTML = `
-                    <h3>Punteggio: ${punteggio}/10</h3>
-                    <h2>${index + 1} | ${domanda.nomeNazione}</h2>
-                    <ul id="risposte-list">
-                        ${domanda.risposte.map((risposta, i) => `<li><button onclick="checkRisposta(${index}, '${risposta}', this)">${risposta}</button></li>`).join("")}
-                    </ul>
-                    <br>
-                    <div id="feedback"></div>
+                headerDomanda += `
+                    <div class="row">
+                        <div class="col">
+                            <h3 class="m-4"> ${domanda.nomeNazione}</h3>
+                        </div>
+                    </div>
+
+                    <div class="row" id="risposte-list">
+                            ${domanda.risposte.map((risposta, i) => `<div class="col-12 mb-3"><button class="btn btn-primary" onclick="checkRisposta(${index}, '${risposta}', this)">${risposta}</button></div>`).join("")}
+                    </div>
                 `;
             } else if (tipo === "nazBand") {
-                const answerImg = document.createElement("img");
-                answerImg.src = domanda.nomeNazione;
-                domandaContainer.innerHTML = `
-                    <h3>Punteggio: ${punteggio}/10</h3>
-                    <h2>${index + 1} | </h2>
-                    <ul id="risposte-list">
-                        ${domanda.risposte.map((risposta, i) => `<li><button onclick="checkRisposta(${index}, '${risposta}', this)">${risposta}</button></li>`).join("")}
-                    </ul>
-                    <br>
-                    <div id="feedback"></div>
+                headerDomanda += `
+                    <div class="row">
+                        <div class="col">
+                            <img src="${domanda.nomeNazione}" style="transform: scale(0.5);"/>
+                        </div>
+                    </div>
+
+                    <div class="row" id="risposte-list">
+                            ${domanda.risposte.map((risposta, i) => `<div class="col-12 mb-3"><button class="btn btn-primary" onclick="checkRisposta(${index}, '${risposta}', this)">${risposta}</button></div>`).join("")}
+                    </div>
                 `;
-                const h2Element = domandaContainer.querySelector("h2");
-                h2Element.appendChild(answerImg);
             }
+
+            domandaContainer.innerHTML = headerDomanda;
 
             if (domanda.rispostaData != undefined) {
                 checkRisposta(index, domanda.rispostaData, this);
@@ -63,22 +86,23 @@ document.addEventListener("DOMContentLoaded", function () {
     window.checkRisposta = function (index, risposta, button) {
         const feedback = document.getElementById("feedback");
         const correctAnswer = domande[index].corretta;
-        const correctImg = document.createElement("img");
-        correctImg.src = domande[index].corretta;
 
         if (risposta === correctAnswer) {
             feedback.textContent = "Corretto!";
-            feedback.className = "correct";
+            feedback.className = "alert alert-success";
             domande[index].check = true;
         } else {
             if (tipo === "nazBand" || tipo === "capNaz") {
-                //TODO: messaggio errore bandiere
-                feedback.textContent = `Sbagliato! La risposta corretta è: ${correctAnswer}`;
-                feedback.className = "incorrect";
+                feedback.textContent = `Sbagliato! La risposta corretta era: ${correctAnswer}`;
+                feedback.className = "alert alert-danger";
             } else if (tipo === "bandNaz") {
-                feedback.textContent = `Sbagliato! La risposta corretta è:`;
+                const correctImg = document.createElement("img");
+                correctImg.src = domande[index].corretta;
+                correctImg.style = "transform: scale(0.3);";
+
+                feedback.textContent = `Sbagliato! La risposta corretta era:`;
+                feedback.className = "alert alert-danger";
                 feedback.appendChild(correctImg);
-                feedback.className = "incorrect";
             }
         }
 
@@ -86,6 +110,9 @@ document.addEventListener("DOMContentLoaded", function () {
             domande[index].rispostaData = risposta;
             if (domande[index].check) {
                 punteggio += 1;
+                corrette += 1;
+            } else {
+                errate += 1;
             }
         }
 
@@ -110,6 +137,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     document.getElementById("prev-button").addEventListener("click", () => {
+        const feedback = document.getElementById("feedback");
+        feedback.className = "";
+        feedback.textContent = "";
         if (currentQuestionIndex > 0) {
             currentQuestionIndex--;
             mostraDomanda(currentQuestionIndex);
@@ -117,6 +147,9 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     document.getElementById("next-button").addEventListener("click", () => {
+        const feedback = document.getElementById("feedback");
+        feedback.className = "";
+        feedback.textContent = "";
         if (currentQuestionIndex < domande.length - 1) {
             currentQuestionIndex++;
             mostraDomanda(currentQuestionIndex);

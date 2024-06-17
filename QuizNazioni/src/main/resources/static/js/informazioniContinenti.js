@@ -1,8 +1,8 @@
 document.addEventListener("DOMContentLoaded", function () {
-    var dropdown = document.getElementById("menu-cont");
-    var nazioniContainer = document.getElementById("nazioniContainer");
-    var nazioniData = []; // Array per memorizzare i dati delle nazioni
-    var currentNazioneIndex = 0; // Indice del paese attualmente visualizzato
+    let dropdown = document.getElementById("menu-cont");
+    let nazioniContainer = document.getElementById("nazioniContainer");
+    let nazioniData = []; // Array per memorizzare i dati delle nazioni
+    let currentNazioneIndex = 0; // Indice del paese attualmente visualizzato
 
     const continentURL = "/api/continenti";
     fetch(continentURL)
@@ -13,18 +13,18 @@ document.addEventListener("DOMContentLoaded", function () {
             return response.json();
         })
         .then((data) => {
-            console.log("Dati ricevuti:", data); // Output dei dati ricevuti dal backend
+            // console.log("Dati ricevuti:", data); // Output dei dati ricevuti dal backend
 
             data.forEach((continent) => {
-                var option = document.createElement("option");
+                let option = document.createElement("option");
                 option.text = continent;
                 option.value = continent;
                 dropdown.appendChild(option);
             });
 
             dropdown.addEventListener("change", function () {
-                var selectedContinent = dropdown.value;
-                console.log("Continente selezionato:", selectedContinent); // Output del continente selezionato
+                let selectedContinent = dropdown.value;
+                // console.log("Continente selezionato:", selectedContinent); // Output del continente selezionato
 
                 fetchNazioniByContinente(selectedContinent);
             });
@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 return response.json();
             })
             .then((data) => {
-                console.log("Dati delle nazioni:", data); // Output dei dati delle nazioni ricevuti dal backend
+                // console.log("Dati delle nazioni:", data); // Output dei dati delle nazioni ricevuti dal backend
 
                 // Memorizza i dati delle nazioni nell'array
                 nazioniData = data;
@@ -63,28 +63,28 @@ document.addEventListener("DOMContentLoaded", function () {
         nazioniContainer.innerHTML = "";
 
         // Crea una tabella per visualizzare i dati della nazione
-        var table = document.createElement("table");
-        var headerRow = table.insertRow();
-        var headers = ["Nome", "Capitale", "Popolazione", "Bandiera"];
+        let table = document.createElement("table");
+        let headerRow = table.insertRow();
+        let headers = ["Nome", "Capitale", "Popolazione", "Bandiera"];
 
         headers.forEach((headerText) => {
-            var header = document.createElement("th");
+            let header = document.createElement("th");
             header.textContent = headerText;
             headerRow.appendChild(header);
         });
 
-        var row = table.insertRow();
-        var cell1 = row.insertCell();
-        var cell2 = row.insertCell();
-        var cell3 = row.insertCell();
-        var cell4 = row.insertCell();
+        let row = table.insertRow();
+        let cell1 = row.insertCell();
+        let cell2 = row.insertCell();
+        let cell3 = row.insertCell();
+        let cell4 = row.insertCell();
 
         cell1.textContent = nazione.nome; // Assumi che "nome", "capitale" e "popolazione" siano campi dei dati delle nazioni
         cell2.textContent = nazione.capitale;
         cell3.textContent = nazione.popolazione;
 
         // Aggiungi l'immagine della bandiera come tag <img>
-        var bandieraImg = document.createElement("img");
+        let bandieraImg = document.createElement("img");
         bandieraImg.src = nazione.img; // Assumi che "img" sia il campo contenente l'URL dell'immagine della bandiera
         bandieraImg.alt = `Bandiera di ${nazione.nome}`; // Testo alternativo per l'immagine della bandiera
         bandieraImg.style.width = "50px"; // Imposta una larghezza fissa per l'immagine della bandiera
@@ -95,7 +95,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Aggiungi pulsanti per navigare tra i paesi
         if (nazioniData.length > 1) {
-            var prevButton = document.createElement("button");
+            let prevButton = document.createElement("button");
+            prevButton.classList.add("btn");
+            prevButton.classList.add("btn-primary");
+            prevButton.classList.add("m-2");
             prevButton.textContent = "Precedente";
             prevButton.addEventListener("click", function () {
                 if (currentNazioneIndex > 0) {
@@ -104,7 +107,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             });
 
-            var nextButton = document.createElement("button");
+            let nextButton = document.createElement("button");
+            nextButton.classList.add("btn");
+            nextButton.classList.add("btn-primary");
+            nextButton.classList.add("m-2");
             nextButton.textContent = "Successivo";
             nextButton.addEventListener("click", function () {
                 if (currentNazioneIndex < nazioniData.length - 1) {
