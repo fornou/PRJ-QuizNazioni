@@ -27,8 +27,12 @@ public class NazioneREST {
 	//---------------------------------------------------------
 	//bisogna vedere bene il mappign con le response entities per questi due metodi siccome poi interferiscono con altri 
 	@GetMapping("continenti")
-	private List<String> getContinenti() {
-		return service.getContinenti();
+	private ResponseEntity<List<String>>  getContinenti() {
+		List<String> continenti =  service.getContinenti();
+		if(continenti == null || continenti.isEmpty()) {
+			new ResponseEntity<List<String>>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<List<String>>(continenti,HttpStatus.FOUND);
 	}
 
 	@GetMapping("nazioni")
