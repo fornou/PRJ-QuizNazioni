@@ -1,11 +1,13 @@
 package com.gruppo.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.gruppo.entities.Nazione;
+import com.gruppo.entities.NomePopolazioneDTO;
 import com.gruppo.repos.NazioneDAO;
 
 @Service
@@ -50,9 +52,17 @@ public class NazioniServiceImpl implements NazioniService {
 	}
 
 	@Override
-	public List<String> getNomePopolazioneByContinente(String continente) {
-		// TODO Auto-generated method stub
-		return dao.findNomePopolazioneByContinente(continente);
+	public List<NomePopolazioneDTO> getNomePopolazioneByContinente(String continente) {
+		List<Object[]> results = dao.findNomePopolazioneByContinente(continente);
+		List<NomePopolazioneDTO> dtos = new ArrayList<>();
+
+		for (Object[] result : results) {
+			String nome = (String) result[0];
+			int popolazione = (int) result[1];
+			dtos.add(new NomePopolazioneDTO(nome, popolazione));
+		}
+
+		return dtos;
 	}
 
 }

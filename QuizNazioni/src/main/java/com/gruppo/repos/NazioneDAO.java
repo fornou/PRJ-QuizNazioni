@@ -12,12 +12,12 @@ public interface NazioneDAO extends JpaRepository<Nazione, String> {
 
 	@Query(value = "select distinct(continente) from nazioniquiz", nativeQuery = true)
 	public List<String> findDistinctContinente();
-	
-	//Prova metodo---------------
-	@Query(value = "SELECT nome, popolazione FROM nazioniquiz WHERE continente =:continente", nativeQuery = true)
-	public List<String> findNomePopolazioneByContinente(@Param("continente") String continente);
 
-	//Prova metodo---------------
+	// Prova metodo---------------
+	@Query(value = "SELECT nome, popolazione FROM nazioniquiz WHERE continente = :continente", nativeQuery = true)
+	public List<Object[]> findNomePopolazioneByContinente(@Param("continente") String continente);
+
+	// Prova metodo---------------
 
 	public List<Nazione> findByPopolazioneBetween(double min, double max);
 

@@ -3,6 +3,7 @@ package com.gruppo.services;
 import java.util.List;
 
 import com.gruppo.entities.Nazione;
+import com.gruppo.entities.NomePopolazioneDTO;
 
 public interface NazioniService {
 
@@ -19,7 +20,7 @@ public interface NazioniService {
 	public List<Nazione> getNazioneByNome(String nome);
 
 	public List<Nazione> getNazioniByContinente(String continente);
-	
-	public List<String> getNomePopolazioneByContinente(String continente);
+
+	public List<NomePopolazioneDTO> getNomePopolazioneByContinente(String continente);
 
 }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.gruppo.entities.Domanda;
 import com.gruppo.entities.Memory;
 import com.gruppo.entities.Nazione;
+import com.gruppo.entities.NomePopolazioneDTO;
 import com.gruppo.entities.Quiz;
 import com.gruppo.services.NazioniService;
 
@@ -92,7 +93,7 @@ public class NazioneREST {
 	}
 
 	@GetMapping("nazioni/memory")
-	public ResponseEntity<Memory> createMemory(){
+	public ResponseEntity<Memory> createMemory() {
 		List<Nazione> listaNazioni = getNazioni();
 		Memory memory = new Memory(listaNazioni);
 		memory.getRisposteMescolate();
@@ -138,7 +139,6 @@ public class NazioneREST {
 		return ResponseEntity.ok(resurce);
 	}
 
-
 	@GetMapping("memory")
 	public ResponseEntity<ClassPathResource> getPaginaMemory() {
 		ClassPathResource resurce = new ClassPathResource("/static/memory.html");
@@ -146,12 +146,14 @@ public class NazioneREST {
 	}
 
 	@GetMapping("nazioni/continente/popolazione/{continente}")
-	public ResponseEntity<List<String>> getPopolazioneByContinente(@PathVariable String continente) {
-		List<String> listaPopo = service.getNomePopolazioneByContinente(continente);
+	public ResponseEntity<List<NomePopolazioneDTO>> getPopolazioneByContinente(@PathVariable String continente) {
+		List<NomePopolazioneDTO> listaPopo = service.getNomePopolazioneByContinente(continente);
+
 		if (listaPopo == null) {
-			new ResponseEntity<List<String>>(HttpStatus.NOT_FOUND);
+			new ResponseEntity<List<NomePopolazioneDTO>>(HttpStatus.NOT_FOUND);
 		}
-		return new ResponseEntity<List<String>>(listaPopo, HttpStatus.OK);
+
+		return new ResponseEntity<List<NomePopolazioneDTO>>(listaPopo, HttpStatus.OK);
 	}
 
 }
