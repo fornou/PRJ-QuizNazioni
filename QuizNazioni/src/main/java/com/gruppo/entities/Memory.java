@@ -9,10 +9,11 @@ public class Memory {
 
     private List<String> risposte;
 
-    public Memory(List<Nazione> lista){
+    public Memory(List<Nazione> lista) {
         Random rand = new Random();
         risposte = new ArrayList<>();
-        //carica in una lista le immagini del memory a coppie
+        
+        // carica in una lista le immagini del memory a coppie
         for (int i = 0; i < 8; i++) {
             int n = rand.nextInt(lista.size());
             Nazione temp = lista.get(n);
@@ -24,7 +25,7 @@ public class Memory {
         }
     }
 
-    public List<String> getRisposteMescolate(){
+    public List<String> getRisposteMescolate() {
         Collections.shuffle(risposte);
         return risposte;
     }

@@ -1,6 +1,6 @@
 const URL = "/api/nazioni/memory";
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
     fetch(URL)
         .then((response) => response.json())
         .then((data) => {
@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 id: index,
                 imgUrl,
                 flipped: false,
-                matched: false
+                matched: false,
             }));
 
             // mostra carte a faccia in giù
@@ -32,15 +32,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 cardElement.appendChild(backFace);
                 gameBoard.appendChild(cardElement);
 
-                cardElement.addEventListener('click', () => handleCardClick(cardElement, cards));
+                cardElement.addEventListener("click", () => handleCardClick(cardElement, cards));
             });
         })
         .catch((error) => {
-            console.error('Error fetching images:', error);
+            console.error("Error fetching images:", error);
         });
 });
-
-
 
 let firstCard = null;
 let secondCard = null;
