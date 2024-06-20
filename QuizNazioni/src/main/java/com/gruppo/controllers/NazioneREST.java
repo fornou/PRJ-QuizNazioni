@@ -145,9 +145,9 @@ public class NazioneREST {
 		return ResponseEntity.ok(resurce);
 	}
 
-	@GetMapping("allflags")
-	public ResponseEntity<ClassPathResource> getPaginaAllFlags() {
-		ClassPathResource resurce = new ClassPathResource("/static/flags.html");
+	@GetMapping("bandiere")
+	public ResponseEntity<ClassPathResource> getPaginaBandiere() {
+		ClassPathResource resurce = new ClassPathResource("/static/bandiere.html");
 		return ResponseEntity.ok(resurce);
 	}
 

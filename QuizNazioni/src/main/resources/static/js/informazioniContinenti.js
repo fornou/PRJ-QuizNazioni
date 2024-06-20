@@ -97,7 +97,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (nazioniData.length > 1) {
             let prevButton = document.createElement("button");
             prevButton.classList.add("btn");
-            prevButton.classList.add("btn-primary");
+            prevButton.classList.add("btn-danger");
             prevButton.classList.add("m-2");
             prevButton.textContent = "Precedente";
             prevButton.addEventListener("click", function () {

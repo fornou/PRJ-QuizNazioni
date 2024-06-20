@@ -5,21 +5,20 @@ fetch(URL)
     .then((listaNazioni) => {
         const continenti = {};
 
-        const container = document.getElementById("container");
+        const container = document.getElementById("main-content");
 
         listaNazioni.forEach((nazione) => {
             if (!continenti[nazione.continente]) {
                 continenti[nazione.continente] = document.createElement("div"); // Crea il contenitore
-                continenti[nazione.continente].classList.add("row");
-                continenti[nazione.continente].classList.add("main");
+                continenti[nazione.continente].classList.add("row", "main", "form-container", "bg-dark", "text-center");
 
                 const titolo = document.createElement("h2"); // Crea il titolo
                 titolo.textContent = nazione.continente;
+                titolo.classList.add("text-white");
                 continenti[nazione.continente].appendChild(titolo);
 
                 const card_group = document.createElement("div"); // Crea il sotto-contenitore per le carte
-                card_group.classList.add("card-group");
-                card_group.classList.add("row");
+                card_group.classList.add("card-group", "row");
                 continenti[nazione.continente].appendChild(card_group);
 
                 container.appendChild(continenti[nazione.continente]); // Mette il contenitore del continente nella pagina
@@ -29,12 +28,12 @@ fetch(URL)
             div_col.classList.add("col-2");
 
             const card = document.createElement("div");
-            card.classList.add("card");
+            card.classList.add("card", "border");
             card.style.margin = "10px";
             div_col.appendChild(card);
 
             const card_img = document.createElement("img");
-            card_img.classList.add("card-img-top");
+            card_img.style.transform = "scale(0.5)";
             card_img.setAttribute("src", `${nazione.img}`);
             card_img.setAttribute("alt", `${nazione.nome}`);
             card.appendChild(card_img);
