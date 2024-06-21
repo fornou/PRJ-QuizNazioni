@@ -138,6 +138,12 @@ public class NazioneREST {
 		ClassPathResource resurce = new ClassPathResource("/static/ripasso.html");
 		return ResponseEntity.ok(resurce);
 	}
+	
+	@GetMapping("ripasso/domande")
+	public ResponseEntity<ClassPathResource> getPaginaRipassoDomande() {
+		ClassPathResource resurce = new ClassPathResource("/static/domandeRipasso.html");
+		return ResponseEntity.ok(resurce);
+	}
 
 	@GetMapping("memory")
 	public ResponseEntity<ClassPathResource> getPaginaMemory() {
@@ -156,6 +162,8 @@ public class NazioneREST {
 		ClassPathResource resurce = new ClassPathResource("/static/statistiche.html");
 		return ResponseEntity.ok(resurce);
 	}
+	
+	
 
 	@GetMapping("nazioni/continente/popolazione/{continente}")
 	public ResponseEntity<List<NomePopolazioneDTO>> getPopolazioneByContinente(@PathVariable String continente) {
