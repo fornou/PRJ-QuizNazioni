@@ -1,21 +1,65 @@
 const URL = "/api/nazioni/memory";
 
-document.addEventListener("DOMContentLoaded", () => {
-    fetch(URL)
-        .then((response) => response.json())
-        .then((data) => {
+        document.addEventListener("DOMContentLoaded", () => {
+            fetch(URL)
+                .then((response) => response.json())
+                .then((data) => {
+                    const { risposteMescolate } = data;
+                    const gameBoard = document.querySelector("#game-board");
 
-            const { risposteMescolate } = data;
-            const gameBoard = document.querySelector("#game-board");//seleziona tramite id
+                    // Creazione di oggetto carta
+                    const cards = risposteMescolate.map((imgUrl, index) => ({
+                        id: index,
+                        imgUrl,
+                        flipped: false,
+                        matched: false,
+                    }));
 
-            // creazione di oggetto carta
-            const cards = risposteMescolate.map((imgUrl, index) => ({
-                id: index,
-                imgUrl,
-                flipped: false,
-                matched: false,
-            }));
+                    const selectContainer = document.getElementById("select-container");
+                    const selezione = document.createElement("select");
+                    selezione.classList.add("class="form-select form-select-lg"")
+                    selezione.id = "opzioni";
+                    selezione.name = "opzioni";
 
+                    const op1 = document.createElement("option");
+                    op1.value = 3000;
+                    op1.textContent = "Facile";
+
+                    const op2 = document.createElement("option");
+                    op2.value = 1500;
+                    op2.textContent = "Intermedio";
+
+                    const op3 = document.createElement("option");
+                    op3.value = 500;
+                    op3.textContent = "Difficile";
+
+                    selezione.appendChild(op1);
+                    selezione.appendChild(op2);
+                    selezione.appendChild(op3);
+
+                    selectContainer.appendChild(selezione);
+
+                    // Aggiungi un bottone per iniziare il gioco
+                    const startButton = document.createElement("button");
+                    startButton.textContent = "Inizia Gioco";
+                    startButton.classList.add("btn" ,"btn-primary")
+                    startButton.addEventListener("click", () => {
+                        const selectedTime = parseInt(selezione.value);
+                        startGame(selectedTime, cards);
+                    });
+
+                    selectContainer.appendChild(startButton);
+                })
+                .catch((error) => {
+                    console.error("Errore nel recupero delle immagini:", error);
+                });
+        });
+
+        function startGame(time, cards) {
+            const gameBoard = document.querySelector("#game-board");
+            gameBoard.innerHTML = ""; // Pulisce il game board
+
+            // Crea carte e visualizza per n sec quelle di faccia e dopo girale
             cards.forEach((card, index) => {
                 const cardElement = document.createElement("div");
                 const frontFace = document.createElement("img");
@@ -35,93 +79,76 @@ document.addEventListener("DOMContentLoaded", () => {
                 setTimeout(() => {
                     backFace.classList.remove("hidden");
                     frontFace.classList.add("hidden");
-                }, 1000);
+                }, time);
 
                 cardElement.addEventListener("click", () => handleCardClick(cardElement, cards));
             });
+        }
 
-        }).catch((error) => {// da errore se non è riuscito a prendere dei dati validi
-            console.error("Error fetching images:", error);
-        })
-});
+        let firstCard = null;
+        let secondCard = null;
+        let lockBoard = false;
+        let coppie = 0;
+        let tentativi = 0;
+        const feedback = document.getElementById("feedback");
 
-let firstCard = null;
-let secondCard = null;
-let lockBoard = false;
-let coppie = 0;
-let corrette = 0;
-let errate = 0;
+        function handleCardClick(cardElement, cards) {
+            if (lockBoard) return;
+            const index = cardElement.dataset.index;
+            const card = cards[index];
 
-//const errate = document.createElement("span");
-//const coppie = document.createElement("span");
-//const corrette = document.createElement("span");
-//
-//coppie.classList.add("badge bg-primary");
-//corrette.classList.add("badge bg-success");
-//errate.classList.add("badge bg-danger");
+            if (card.flipped || card.matched) return;
 
-function handleCardClick(cardElement, cards) {
-    if (lockBoard) return;// esce se lockboard è true
-    const index = cardElement.dataset.index;
-    const card = cards[index];
+            card.flipped = true;
+            cardElement.querySelector(".front-face").classList.remove("hidden");
+            cardElement.querySelector(".back-face").classList.add("hidden");
 
-    if (card.flipped || card.matched) return;//se la carta è già matchata o flippata esce -> non permette di modificare una carta già girata
+            if (!firstCard) {
+                firstCard = card;
+                return;
+            }
 
-    card.flipped = true;//imposta per quella carta la proprietà flipped a true
-    cardElement.querySelector(".front-face").classList.remove("hidden");//mostra il front della carta 
-    cardElement.querySelector(".back-face").classList.add("hidden");//toglie il back della carta
+            secondCard = card;
+            lockBoard = true;
 
-    if (!firstCard) {//se la prima carta non è stata assegnata la segna a firstBird ed esce
-        firstCard = card;
-        return;
-    }
+            if (firstCard.imgUrl === secondCard.imgUrl) {
+                coppie++;
+                firstCard.matched = true;
+                secondCard.matched = true;
+                if (coppie < 8) {
+                    feedback.textContent = "Continua così!";
+                    feedback.className = "alert alert-success";
+                }
+                setTimeout(() => {
+                    resetBoard();
+                }, 1000);
+            } else {
+                feedback.textContent = "Sbagliato! La prossima volta sarai più fortunato.";
+                feedback.className = "alert alert-danger";
+                setTimeout(() => {
+                    firstCard.flipped = false;
+                    secondCard.flipped = false;
+                    cardElement.querySelector(".front-face").classList.add("hidden");
+                    cardElement.querySelector(".back-face").classList.remove("hidden");
+                    document.querySelector(`[data-index="${firstCard.id}"] .front-face`).classList.add("hidden");
+                    document.querySelector(`[data-index="${firstCard.id}"] .back-face`).classList.remove("hidden");
+                    document.querySelector(`[data-index="${secondCard.id}"] .front-face`).classList.add("hidden");
+                    document.querySelector(`[data-index="${secondCard.id}"] .back-face`).classList.remove("hidden");
+                    resetBoard();
+                }, 1000);
+            }
+            tentativi++;
+            console.log(tentativi)
+        }
 
-    secondCard = card;//assegna la carta alla variabile secondCard
-    lockBoard = true;
-    const feedback = document.getElementById("feedback");
+        function resetBoard() {
+            [firstCard, secondCard] = [null, null];
+            lockBoard = false;
+            feedback.textContent = null;
+            feedback.className = null;
 
-    if (firstCard.imgUrl === secondCard.imgUrl) {//se le immagini delle due carte sono uguali setto il match a true su entrambe e stampo un feedback
-        firstCard.matched = true;
-        secondCard.matched = true;
-        feedback.textContent = "Continua così!";
-        feedback.className = "alert alert-success";
-        coppie++;
-        setTimeout(() => {// dopo un secondo emmezzo richiama il metodo resetBoard()
-            resetBoard();
-        }, 2000);
-
-    } else {//se non sono uguali stampa un messaggio di errore
-        feedback.textContent = `Sbagliato! La prosssima volta sara più fortunato`;
-        feedback.className = "alert alert-danger";
-        setTimeout(() => {
-            firstCard.flipped = false; // setta flipped su false perchè non è stato indovinato
-            secondCard.flipped = false;
-            cardElement.querySelector(".front-face").classList.add("hidden");//nasconde il front della faccia
-            cardElement.querySelector(".back-face").classList.remove("hidden");//mostra il back
-            document.querySelector(`[data-index="${firstCard.id}"] .front-face`).classList.add("hidden");
-            document.querySelector(`[data-index="${firstCard.id}"] .back-face`).classList.remove("hidden");
-            document.querySelector(`[data-index="${secondCard.id}"] .front-face`).classList.add("hidden");
-            document.querySelector(`[data-index="${secondCard.id}"] .back-face`).classList.remove("hidden");
-            resetBoard();
-        }, 1000);
-    }
-}
-
-function resetBoard() {// setta a null le due variabili collegate alle carte selezionate
-    [firstCard, secondCard] = [null, null];
-    lockBoard = false;
-    feedback.textContent = null;
-    feedback.className = null;
-
-    
-
-    cardElement.classList.add("carta");
-    cardElement.dataset.index = index;
-
-    if (coppie == 8) {
-        console.log("miaoooo")
-        feedback.textContent = "Complimenti!! Hai vinto!!!!!!";
-        feedback.className = "alert alert-success";
-    }
-}
-
+            if (coppie == 8) {
+                feedback.textContent = "Complimenti!! Hai vinto!!!!!!";
+                feedback.className = "alert alert-success";
+            }
+        }

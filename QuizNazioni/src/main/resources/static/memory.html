@@ -11,29 +11,37 @@
 		<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon_io/favicon-16x16.png">
 		<link rel="manifest" href="/assets/favicon_io/site.webmanifest">
     </head>
-    <body>
-        <div class="container">
+    <body class="bg-success">
+        <div class="container text-center">
             <div id="main-content" class="main">
                 <div class="row mb-3">
                     <h1>Memory</h1>
                 </div>
-
-                <div class="row mb-3">
-                    <div id="game-board" class="game-board"></div>
-                </div>
-
-                <div class="row">
-                    <div class="col">
-                        <div class="" role="alert" id="feedback"></div>
+                <div class="form-container bg-dark">
+                    <div class="row mb-3">
+                        <label for="" class="form-label fs-4 text-white">Difficoltà</label>
+                        <div id="select-container">
+                            <option value="" disabled selected hidden>Scegli la difficoltà</option>
+                        </div>
                     </div>
-                </div>
 
-                <div class="row">
-                    <div class="col">
-                        <a class="btn btn-primary" href="/" role="button">Home</a>
+                    <div class="row mb-3">
+                        <div id="game-board" class="game-board"></div>
                     </div>
-                    <div class="col">
-                        <a class="btn btn-primary" href="/api/ripasso" role="button">Ripasso</a>
+
+                    <div class="row mb-2">
+                        <div class="col-3">
+                            <div  role="alert" id="feedback"></div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <a class="btn btn-primary" href="/" role="button">Home</a>
+                        </div>
+                        <div class="col">
+                            <a class="btn btn-primary" href="/api/ripasso" role="button">Ripasso</a>
+                        </div>
                     </div>
                 </div>
             </div>
