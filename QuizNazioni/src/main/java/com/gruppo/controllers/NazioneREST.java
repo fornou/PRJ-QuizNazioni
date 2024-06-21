@@ -1,7 +1,9 @@
 package com.gruppo.controllers;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -115,16 +117,37 @@ public class NazioneREST {
 		return new ResponseEntity<Domanda>(domanda, HttpStatus.OK);
 	}
 
+	// @GetMapping("nazioni/{continente}/domande/{modalita}")
+	// public ResponseEntity<Quiz> getListaDomande(@PathVariable String continente, @PathVariable String modalita) {
+
+	// 	List<Domanda> listaDomande = new ArrayList<Domanda>();
+
+	// 	for (int i = 0; i < 10; i++) {
+	// 		ResponseEntity<Domanda> response = createDomanda(continente, modalita);
+	// 		if (response.getStatusCode() == HttpStatus.OK) {
+	// 			Domanda domanda = response.getBody();
+	// 			listaDomande.add(domanda);
+	// 		}
+	// 	}
+
+	// 	Quiz quiz = new Quiz(listaDomande, 0);
+
+	// 	return new ResponseEntity<>(quiz, HttpStatus.OK);
+	// }
 	@GetMapping("nazioni/{continente}/domande/{modalita}")
 	public ResponseEntity<Quiz> getListaDomande(@PathVariable String continente, @PathVariable String modalita) {
 
-		List<Domanda> listaDomande = new ArrayList<Domanda>();
+        List<Domanda> listaDomande = new ArrayList<>();
 
-		for (int i = 0; i < 10; i++) {
+		while (listaDomande.size() < 10) {
 			ResponseEntity<Domanda> response = createDomanda(continente, modalita);
 			if (response.getStatusCode() == HttpStatus.OK) {
 				Domanda domanda = response.getBody();
-				listaDomande.add(domanda);
+				boolean exists = listaDomande.stream()
+						.anyMatch(q -> q.getNomeNazione().equals(domanda.getNomeNazione()));
+				if (!exists) {
+					listaDomande.add(domanda);
+				}
 			}
 		}
 
