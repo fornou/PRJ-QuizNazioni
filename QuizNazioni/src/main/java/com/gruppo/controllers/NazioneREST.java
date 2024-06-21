@@ -151,6 +151,12 @@ public class NazioneREST {
 		return ResponseEntity.ok(resurce);
 	}
 
+	@GetMapping("statistiche")
+	public ResponseEntity<ClassPathResource> getPaginaStatistiche() {
+		ClassPathResource resurce = new ClassPathResource("/static/statistiche.html");
+		return ResponseEntity.ok(resurce);
+	}
+
 	@GetMapping("nazioni/continente/popolazione/{continente}")
 	public ResponseEntity<List<NomePopolazioneDTO>> getPopolazioneByContinente(@PathVariable String continente) {
 		List<NomePopolazioneDTO> listaPopo = service.getNomePopolazioneByContinente(continente);
