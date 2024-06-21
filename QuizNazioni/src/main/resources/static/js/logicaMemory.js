@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
             // Aggiungi un bottone per iniziare il gioco
             const startButton = document.getElementById("btn-gioca");
             startButton.addEventListener("click", () => {
-                const opzione = document.getElementById('difficolta')
+                const opzione = document.getElementById("difficolta");
                 const selectedTime = parseInt(opzione.value);
                 startGame(selectedTime, cards);
             });
@@ -88,14 +88,14 @@ function handleCardClick(cardElement, cards) {
         firstCard.matched = true;
         secondCard.matched = true;
         if (coppie < 8) {
-            feedback.textContent = "Continua così!";
+            feedback.textContent = "Hai trovato una coppia! Continua così!";
             feedback.className = "alert alert-success";
         }
         setTimeout(() => {
             resetBoard();
         }, 1000);
     } else {
-        feedback.textContent = "Sbagliato! La prossima volta sarai più fortunato.";
+        feedback.textContent = "Hai sbagliato! Ritenta.";
         feedback.className = "alert alert-danger";
         setTimeout(() => {
             firstCard.flipped = false;
@@ -120,7 +120,32 @@ function resetBoard() {
     feedback.className = null;
 
     if (coppie == 8) {
-        feedback.textContent = "Complimenti!! Hai vinto!!!!!!";
+        console.log("vittoria");
+        feedback.textContent = "Complimenti! Hai vinto!";
         feedback.className = "alert alert-success";
+
+        const datiUtente = localStorage.getItem("datiUtente");
+        console.log("datiUtente: " + datiUtente);
+
+        if (datiUtente) {
+            const dati = JSON.parse(datiUtente);
+            console.log("dati: " + dati);
+
+            dati["partite_memory"] += 1;
+
+            if (tentativi < dati["record_memory"]) {
+                dati["record_memory"] = tentativi;
+            }
+
+            console.log("dati: " + dati);
+
+            const datiStringa = JSON.stringify(dati);
+            console.log("datiStringa: " + datiStringa);
+            localStorage.setItem("datiUtente", datiStringa);
+
+            console.log("Dati Salvati");
+        } else {
+            console.log("Errore nel prendere i dati utente");
+        }
     }
 }

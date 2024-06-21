@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
             risposte_corrette: 0,
             risposte_errate: 0,
             partite_memory: 0,
-            record_memory: 0,
+            record_memory: 100000,
         };
 
         const datiStringa = JSON.stringify(datiUtente);
