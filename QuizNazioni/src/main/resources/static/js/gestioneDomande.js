@@ -4,7 +4,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const tipo = parametriUrl.get("tipo");
     let currentQuestionIndex = 0;
     let domande = [];
-    let punteggio = 0;
     let corrette = 0;
     let errate = 0;
 
@@ -109,7 +108,6 @@ document.addEventListener("DOMContentLoaded", function () {
         if (domande[index].rispostaData === undefined) {
             domande[index].rispostaData = risposta;
             if (domande[index].check) {
-                punteggio += 1;
                 corrette += 1;
                 const divCorrette = document.getElementById("corrette");
                 divCorrette.textContent = `Corrette: ${corrette}`;
@@ -117,6 +115,29 @@ document.addEventListener("DOMContentLoaded", function () {
                 errate += 1;
                 const divErrate = document.getElementById("errate");
                 divErrate.textContent = `Errate: ${errate}`;
+            }
+
+            if (corrette + errate === 10) { // Gioco Finito
+                const datiUtente = localStorage.getItem('datiUtente')
+
+                if (datiUtente) {
+                    const dati = JSON.parse(datiUtente)
+                    dati['quiz_tentati'] += 1;
+                    
+                    if (corrette >= 6) {
+                        dati['quiz_passati'] += 1;
+                    }
+
+                    dati['risposte_corrette'] += corrette
+                    dati['risposte_errate'] += errate
+
+                    const datiStringa = JSON.stringify(dati)
+                    localStorage.setItem('datiUtente', datiStringa)
+
+                    console.log('Dati Salvati')
+                } else {
+                    console.log('Errore nel recupero dei dati utente')
+                }
             }
         }
 
