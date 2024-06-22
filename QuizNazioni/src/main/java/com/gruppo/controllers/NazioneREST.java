@@ -1,9 +1,7 @@
 package com.gruppo.controllers;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -118,26 +116,27 @@ public class NazioneREST {
 	}
 
 	// @GetMapping("nazioni/{continente}/domande/{modalita}")
-	// public ResponseEntity<Quiz> getListaDomande(@PathVariable String continente, @PathVariable String modalita) {
+	// public ResponseEntity<Quiz> getListaDomande(@PathVariable String continente,
+	// @PathVariable String modalita) {
 
-	// 	List<Domanda> listaDomande = new ArrayList<Domanda>();
+	// List<Domanda> listaDomande = new ArrayList<Domanda>();
 
-	// 	for (int i = 0; i < 10; i++) {
-	// 		ResponseEntity<Domanda> response = createDomanda(continente, modalita);
-	// 		if (response.getStatusCode() == HttpStatus.OK) {
-	// 			Domanda domanda = response.getBody();
-	// 			listaDomande.add(domanda);
-	// 		}
-	// 	}
+	// for (int i = 0; i < 10; i++) {
+	// ResponseEntity<Domanda> response = createDomanda(continente, modalita);
+	// if (response.getStatusCode() == HttpStatus.OK) {
+	// Domanda domanda = response.getBody();
+	// listaDomande.add(domanda);
+	// }
+	// }
 
-	// 	Quiz quiz = new Quiz(listaDomande, 0);
+	// Quiz quiz = new Quiz(listaDomande, 0);
 
-	// 	return new ResponseEntity<>(quiz, HttpStatus.OK);
+	// return new ResponseEntity<>(quiz, HttpStatus.OK);
 	// }
 	@GetMapping("nazioni/{continente}/domande/{modalita}")
 	public ResponseEntity<Quiz> getListaDomande(@PathVariable String continente, @PathVariable String modalita) {
 
-        List<Domanda> listaDomande = new ArrayList<>();
+		List<Domanda> listaDomande = new ArrayList<>();
 
 		while (listaDomande.size() < 10) {
 			ResponseEntity<Domanda> response = createDomanda(continente, modalita);
@@ -161,7 +160,7 @@ public class NazioneREST {
 		ClassPathResource resurce = new ClassPathResource("/static/ripasso.html");
 		return ResponseEntity.ok(resurce);
 	}
-	
+
 	@GetMapping("ripasso/domande")
 	public ResponseEntity<ClassPathResource> getPaginaRipassoDomande() {
 		ClassPathResource resurce = new ClassPathResource("/static/domandeRipasso.html");
@@ -185,8 +184,6 @@ public class NazioneREST {
 		ClassPathResource resurce = new ClassPathResource("/static/statistiche.html");
 		return ResponseEntity.ok(resurce);
 	}
-	
-	
 
 	@GetMapping("nazioni/continente/popolazione/{continente}")
 	public ResponseEntity<List<NomePopolazioneDTO>> getPopolazioneByContinente(@PathVariable String continente) {

@@ -12,18 +12,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const dati = JSON.parse(datiUtente);
 
-        quiz_tentati.textContent = dati['quiz_tentati']
-        quiz_passati.textContent = dati['quiz_passati'] + "/" + dati['quiz_tentati']
-        quiz_bocciati.textContent = (dati['quiz_tentati'] - dati['quiz_passati']) + "/" + dati['quiz_tentati']
-        risposte_corrette.textContent = dati['risposte_corrette'] + "/" + (dati['risposte_corrette'] + dati['risposte_errate'])
-        risposte_errate.textContent = dati['risposte_errate'] + "/" + (dati['risposte_corrette'] + dati['risposte_errate'])
-        partite_memory.textContent = dati['partite_memory']
-        if (dati['record_memory'] === 100000) {
-            record_memory.textContent = 0
+        quiz_tentati.textContent = dati["quiz_tentati"];
+        quiz_passati.textContent = dati["quiz_passati"] + "/" + dati["quiz_tentati"];
+        quiz_bocciati.textContent = dati["quiz_tentati"] - dati["quiz_passati"] + "/" + dati["quiz_tentati"];
+        risposte_corrette.textContent = dati["risposte_corrette"] + "/" + (dati["risposte_corrette"] + dati["risposte_errate"]);
+        risposte_errate.textContent = dati["risposte_errate"] + "/" + (dati["risposte_corrette"] + dati["risposte_errate"]);
+        partite_memory.textContent = dati["partite_memory"];
+        if (dati["record_memory"] === 100000) {
+            record_memory.textContent = 0;
         } else {
-            record_memory.textContent = dati['record_memory']
+            record_memory.textContent = dati["record_memory"];
         }
-        
     } else {
         console.log("Errore nel recupero dei dati utente");
     }

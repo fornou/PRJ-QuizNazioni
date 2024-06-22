@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let domande = [];
     let corrette = 0;
     let errate = 0;
-    let totalQuestionsAnswered = parseInt(localStorage.getItem('totalQuestionsAnswered')) || 0;
+    let totalQuestionsAnswered = parseInt(localStorage.getItem("totalQuestionsAnswered")) || 0;
 
     const titolo = document.getElementById("titolo");
     titolo.textContent += continente;
@@ -142,7 +142,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
         // Salva il conteggio delle domande risposte in localStorage
-        localStorage.setItem('totalQuestionsAnswered', totalQuestionsAnswered.toString());
+        localStorage.setItem("totalQuestionsAnswered", totalQuestionsAnswered.toString());
 
         // Abilita il pulsante "Successivo" indipendentemente dalla risposta data
         document.getElementById("next-button").disabled = false;

@@ -117,26 +117,27 @@ document.addEventListener("DOMContentLoaded", function () {
                 divErrate.textContent = `Errate: ${errate}`;
             }
 
-            if (corrette + errate === 10) { // Gioco Finito
-                const datiUtente = localStorage.getItem('datiUtente')
+            if (corrette + errate === 10) {
+                // Gioco Finito
+                const datiUtente = localStorage.getItem("datiUtente");
 
                 if (datiUtente) {
-                    const dati = JSON.parse(datiUtente)
-                    dati['quiz_tentati'] += 1;
-                    
+                    const dati = JSON.parse(datiUtente);
+                    dati["quiz_tentati"] += 1;
+
                     if (corrette >= 6) {
-                        dati['quiz_passati'] += 1;
+                        dati["quiz_passati"] += 1;
                     }
 
-                    dati['risposte_corrette'] += corrette
-                    dati['risposte_errate'] += errate
+                    dati["risposte_corrette"] += corrette;
+                    dati["risposte_errate"] += errate;
 
-                    const datiStringa = JSON.stringify(dati)
-                    localStorage.setItem('datiUtente', datiStringa)
+                    const datiStringa = JSON.stringify(dati);
+                    localStorage.setItem("datiUtente", datiStringa);
 
-                    console.log('Dati Salvati')
+                    console.log("Dati Salvati");
                 } else {
-                    console.log('Errore nel recupero dei dati utente')
+                    console.log("Errore nel recupero dei dati utente");
                 }
             }
         }
