@@ -77,7 +77,16 @@ ul li {
 }
 
 .back-face {
+    border: 5px solid #198754;
     background-color: #6b6a6a;
+    background-image: url('./img/mondo.png');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.front-face{
+    background-color: white;
 }
 
 .hidden {
