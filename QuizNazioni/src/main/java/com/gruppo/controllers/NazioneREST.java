@@ -100,6 +100,14 @@ public class NazioneREST {
 		return new ResponseEntity<Memory>(memory, HttpStatus.OK);
 	}
 
+	@GetMapping("nazioni/domandaCasuale")
+	public ResponseEntity<Domanda> createDomandaCasuale() {
+		List<Nazione> listaNazioni=getNazioni();
+		Domanda domanda = new Domanda(listaNazioni);
+
+		return new ResponseEntity<Domanda>(domanda, HttpStatus.OK);
+	}
+
 	@GetMapping("nazioni/{continente}/domanda/{modalita}")
 	public ResponseEntity<Domanda> createDomanda(@PathVariable String continente, @PathVariable String modalita) {
 		List<Nazione> listaNazioni;

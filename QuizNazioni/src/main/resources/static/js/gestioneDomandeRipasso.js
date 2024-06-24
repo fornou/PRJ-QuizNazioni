@@ -1,195 +1,177 @@
-document.addEventListener("DOMContentLoaded", function () {
-    const parametriUrl = new URLSearchParams(window.location.search);
-    const continente = parametriUrl.get("continente");
-    const tipo = parametriUrl.get("modalita");
-    let currentQuestionIndex = 0;
-    let domande = [];
-    let corrette = 0;
-    let errate = 0;
-    let totalQuestionsAnswered = parseInt(localStorage.getItem("totalQuestionsAnswered")) || 0;
+const domande = [];
+let index = 0;
+let corrette = 0;
+let errate = 0;
 
-    const titolo = document.getElementById("titolo");
-    titolo.textContent += continente;
+document.getElementById('prev-button').addEventListener('click', prevDomanda);
+document.getElementById('next-button').addEventListener('click', nextDomanda);
 
-    function mostraDomanda(index) {
-        const domandaContainer = document.getElementById("domanda-container");
+function caricaDomanda() {
+    fetch(`/api/nazioni/domandaCasuale`)
+        .then((response) => response.json())
+        .then((data) => {
+            domande.push(data);
+            mostraDomanda(index);
+        })
+        .catch((error) => {
+            document.getElementById("domanda-container").innerHTML = "<p>Si è verificato un errore durante il recupero delle domande. Riprova più tardi.</p>";
+        });
+}
 
-        let headerDomanda = `
+function mostraDomanda(indice) {
+    const data = domande[indice];
+    let headerDomanda = `
+    <div class="row">
+        <div class="col">
+            <span class="badge bg-primary">${indice + 1}/10</span>
+        </div>
+        <div class="col">
+            <span class="badge bg-success" id="corrette">Corrette: ${corrette}</span>
+        </div>
+        <div class="col">
+            <span class="badge bg-danger" id="errate">Errate: ${errate}</span>
+        </div>
+    </div>
+`;
+
+    let domandaHTML = headerDomanda;
+
+    if (data.nomeNazione.includes('https://')) {
+        // Tipo 1: Data immagine, indovinare nazione
+        domandaHTML += `
         <div class="row">
-            <div class="col">
-                <span class="badge bg-primary">Domanda ${currentQuestionIndex + 1}</span>
-            </div>
-            <div class="col">
-                <span class="badge bg-success" id="corrette">Corrette: ${corrette}</span>
-            </div>
-            <div class="col">
-                <span class="badge bg-danger" id="errate">Errate: ${errate}</span>
+            <div class="col text-center">
+                <img src="${data.nomeNazione}" style="transform: scale(0.5);">
             </div>
         </div>
-        `;
-
-        if (domande.length > 0) {
-            const domanda = domande[index];
-
-            if (tipo === "bandNaz") {
-                headerDomanda += `
-                    <div class="row">
-                        <div class="col">
-                            <h3 class="m-4">${domanda.nomeNazione}</h3>
-                        </div>
-                    </div>
-
-                    <div class="row" id="risposte-list">
-                        ${domanda.risposte.map((risposta, i) => `<div class="col-6"><button class="btn" onclick="checkRisposta(${index}, '${risposta}', this)" style="background-image: url('${risposta}'); width: 256px; height: 192px; background-repeat: no-repeat; object-fit: contain; background-position: center; transform: scale(0.5);"></button></div>`).join("")}
-                    </div> 
-                `;
-            } else if (tipo === "capNaz") {
-                headerDomanda += `
-                    <div class="row">
-                        <div class="col">
-                            <h3 class="m-4">${domanda.nomeNazione}</h3>
-                        </div>
-                    </div>
-
-                    <div class="row" id="risposte-list">
-                            ${domanda.risposte.map((risposta, i) => `<div class="col-12 mb-3"><button class="btn btn-primary" onclick="checkRisposta(${index}, '${risposta}', this)">${risposta}</button></div>`).join("")}
-                    </div>
-                `;
-            } else if (tipo === "nazBand") {
-                headerDomanda += `
-                    <div class="row">
-                        <div class="col">
-                            <img src="${domanda.nomeNazione}" style="transform: scale(0.5);"/>
-                        </div>
-                    </div>
-
-                    <div class="row" id="risposte-list">
-                            ${domanda.risposte.map((risposta, i) => `<div class="col-12 mb-3"><button class="btn btn-primary" onclick="checkRisposta(${index}, '${risposta}', this)">${risposta}</button></div>`).join("")}
-                    </div>
-                `;
-            }
-
-            domandaContainer.innerHTML = headerDomanda;
-
-            if (domanda.rispostaData != undefined) {
-                checkRisposta(index, domanda.rispostaData, this);
-            }
-
-            // Abilita sempre i pulsanti di navigazione
-            document.getElementById("prev-button").disabled = false;
-            document.getElementById("next-button").disabled = false;
-        } else {
-            domandaContainer.innerHTML = "<p>Nessuna domanda trovata per il continente specificato.</p>";
-        }
-    }
-
-    window.checkRisposta = function (index, risposta, button) {
-        const feedback = document.getElementById("feedback");
-        const correctAnswer = domande[index].corretta;
-
-        if (risposta === correctAnswer) {
-            feedback.textContent = "Corretto!";
-            feedback.className = "alert alert-success";
-            domande[index].check = true;
-        } else {
-            if (tipo === "nazBand" || tipo === "capNaz") {
-                feedback.textContent = `Sbagliato! La risposta corretta era: ${correctAnswer}`;
-                feedback.className = "alert alert-danger";
-            } else if (tipo === "bandNaz") {
-                const correctImg = document.createElement("img");
-                correctImg.src = domande[index].corretta;
-                correctImg.style = "transform: scale(0.3);";
-
-                feedback.textContent = `Sbagliato! La risposta corretta era:`;
-                feedback.className = "alert alert-danger";
-                feedback.appendChild(correctImg);
-            }
-        }
-
-        if (domande[index].rispostaData === undefined) {
-            domande[index].rispostaData = risposta;
-            if (domande[index].check) {
-                corrette += 1;
-                const divCorrette = document.getElementById("corrette");
-                divCorrette.textContent = `Corrette: ${corrette}`;
-            } else {
-                errate += 1;
-                const divErrate = document.getElementById("errate");
-                divErrate.textContent = `Errate: ${errate}`;
-            }
-
-            totalQuestionsAnswered++; // Incrementa il conteggio delle domande risposte
-            document.getElementById("totalQuestionsAnswered").textContent = totalQuestionsAnswered;
-
-            // Controllo per navigare automaticamente alla prossima domanda se si è alla fine
-            if (currentQuestionIndex === domande.length - 1) {
-                fetchNuoveDomande();
-            }
-        }
-
-        // Disabilita tutti i pulsanti di risposta dopo la selezione
-        document.querySelectorAll("#risposte-list button").forEach((btn) => {
-            btn.disabled = true;
-            if (btn.textContent == domande[index].rispostaData) {
-                if (domande[index].check) {
-                    btn.className = "btn btn-success";
-                    btn.style.fontWeight = "bold";
-                } else {
-                    btn.className = "btn btn-danger";
-                    btn.style.fontWeight = "bold";
-                }
-            }
-        });
-
-        // Salva il conteggio delle domande risposte in localStorage
-        localStorage.setItem("totalQuestionsAnswered", totalQuestionsAnswered.toString());
-
-        // Abilita il pulsante "Successivo" indipendentemente dalla risposta data
-        document.getElementById("next-button").disabled = false;
-    };
-
-    function fetchNuoveDomande() {
-        fetch(`/api/nazioni/${continente}/domande/${tipo}`)
-            .then((response) => response.json())
-            .then((data) => {
-                if (data.listaDomande && data.listaDomande.length > 0) {
-                    domande = data.listaDomande;
-                    mostraDomanda(currentQuestionIndex);
-                } else {
-                    console.log("Nessuna nuova domanda disponibile.");
-                }
-            })
-            .catch((error) => {
-                console.error("Errore durante il recupero delle domande:", error);
-                document.getElementById("domanda-container").innerHTML = "<p>Si è verificato un errore durante il recupero delle domande. Riprova più tardi.</p>";
-            });
-    }
-
-    if (continente) {
-        fetchNuoveDomande();
+    `;
     } else {
-        document.getElementById("domanda-container").innerHTML = '<p>Parametro "continente" non trovato nell\'URL.</p>';
+        // Tipo 2 o Tipo 3: Data nazione
+        domandaHTML += `
+        <div class="row">
+            <div class="col text-center">
+                <h3 class="m-4">${data.nomeNazione}</h3>
+            </div>
+        </div>
+    `;
     }
 
-    document.getElementById("prev-button").addEventListener("click", () => {
-        const feedback = document.getElementById("feedback");
-        feedback.className = "";
-        feedback.textContent = "";
-        if (currentQuestionIndex > 0) {
-            currentQuestionIndex--;
-            mostraDomanda(currentQuestionIndex);
-        }
-    });
+    domandaHTML += `<div class="row" id="risposte-list">`;
 
-    document.getElementById("next-button").addEventListener("click", () => {
-        const feedback = document.getElementById("feedback");
-        feedback.className = "";
-        feedback.textContent = "";
-        if (currentQuestionIndex < domande.length - 1) {
-            currentQuestionIndex++;
-            mostraDomanda(currentQuestionIndex);
-        } else {
-            fetchNuoveDomande();
+    let risposte = data.risposte.map((risposta, idx) => {
+        let buttonClass = 'btn-primary';
+        if (data.rispostaData !== undefined) {
+            if (risposta === data.rispostaData) {
+                buttonClass = data.check ? 'btn-success' : 'btn-danger';
+            }
         }
-    });
-});
+
+        if (data.risposte[0].includes('https://')) {
+            // Tipo 2: Data nazione, indovinare bandiera
+            return `
+            <div class="col-6 text-center mb-3">
+                <button 
+                    class="btn" onclick="verificaRisposta('${risposta}', '${data.corretta}', this)"
+                    style="
+                        background-image: url('${risposta}'); 
+                        width: 256px; height: 192px; background-repeat: no-repeat;
+                        object-fit: contain; background-position: center;
+                        transform: scale(0.5);"
+                        ${data.rispostaData !== undefined ? 'disabled' : ''}
+                >
+                </button>
+            </div>
+        `;
+        } else {
+            // Tipo 1 o Tipo 3: Data immagine/nazione, indovinare nazione/capitale
+            return `
+            <div class="col-12 mb-3 text-center">
+                <button class="btn ${buttonClass}" onclick="verificaRisposta('${risposta}', '${data.corretta}', this)" ${data.rispostaData !== undefined ? 'disabled' : ''}>
+                    ${risposta}
+                </button>
+            </div>
+        `;
+        }
+    }).join("");
+
+    domandaHTML += risposte;
+    domandaHTML += `</div>`;
+
+    const domandaContainer = document.getElementById('domanda-container');
+    domandaContainer.innerHTML = domandaHTML;
+
+    if (data.rispostaData !== undefined) {
+        verificaRisposta(data.rispostaData, data.corretta, null, true);
+    }
+
+    // Gestione pulsanti prev/next
+    document.getElementById("prev-button").disabled = indice === 0;
+}
+
+function verificaRisposta(risposta, corretta, button, fromHistory = false) {
+    const feedback = document.getElementById("feedback");
+    const data = domande[index];
+
+    if (risposta === corretta) {
+        feedback.textContent = "Corretto!";
+        feedback.className = "alert alert-success";
+        if (button) button.classList.add('btn-success');
+    } else {
+        if (data.risposte[0].includes('https://')) {
+            feedback.innerHTML = `Sbagliato! La risposta corretta era: <img src="${corretta}" alt="Bandiera" class="img-fluid" style="max-width: 64px;">`;
+        } else {
+            feedback.textContent = `Sbagliato! La risposta corretta era: ${corretta}`;
+        }
+        feedback.className = "alert alert-danger";
+        if (button) button.classList.add('btn-danger');
+    }
+
+    if (!fromHistory) {
+        data.rispostaData = risposta;
+        data.check = (risposta === corretta);
+
+        if (data.check) {
+            corrette++;
+        } else {
+            errate++;
+        }
+
+        // Aggiorna il conteggio delle risposte corrette ed errate
+        document.getElementById('corrette').innerText = `Corrette: ${corrette}`;
+        document.getElementById('errate').innerText = `Errate: ${errate}`;
+    }
+
+    // Disabilita tutti i pulsanti per evitare ulteriori clic
+    let buttons = document.querySelectorAll('#domanda-container button');
+    buttons.forEach(btn => btn.disabled = true);
+
+    
+}
+
+function prevDomanda() {
+    const feedback = document.getElementById("feedback");
+    feedback.className = "";
+    feedback.textContent = "";
+    if (index > 0) {
+        index--;
+        mostraDomanda(index);
+    }
+}
+
+function nextDomanda() {
+    const feedback = document.getElementById("feedback");
+    feedback.className = "";
+    feedback.textContent = "";
+    if (index < domande.length - 1) {
+        index++;
+        mostraDomanda(index);
+    } else {
+        caricaDomanda();
+        index++;
+    }
+}
+
+// Carica la prima domanda al caricamento della pagina
+window.onload = () => {
+    caricaDomanda();
+};

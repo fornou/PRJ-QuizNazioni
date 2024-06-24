@@ -65,6 +65,60 @@ public class Domanda {
 
     }
 
+    public Domanda(List<Nazione> lista){
+        Random rand = new Random();
+        risposte = new ArrayList<>();
+
+        int sceltaCorretta = rand.nextInt(4);
+        int tipo = rand.nextInt(3)+ 1;//sceglie indice casuale per tipo
+
+        for (int i = 0; i < 4; i++) {
+            int n = rand.nextInt(lista.size());
+            Nazione temp = lista.get(n);
+
+            switch (tipo) {
+                case 1: // Domanda -> nazione
+                    this.risposte.add(temp.getCapitale()); // risposte -> capitali
+                    break;
+                case 2: // Domanda -> nazione
+                    this.risposte.add(temp.getImg()); // Risposte -> immagini bandiere
+                    break;
+                case 3: // Domanda -> immagine bandiera
+                    this.risposte.add(temp.getNome()); // risposte -> nazioni
+                    break;
+
+                default:
+                    this.risposte.add("errore");
+                    break;
+            }
+
+            if (i == sceltaCorretta) {
+                switch (tipo) {
+                    case 1:
+                        this.nomeNazione = temp.getNome();
+                        this.corretta = temp.getCapitale();
+                        break;
+                    case 2:
+                        this.nomeNazione = temp.getNome();
+                        this.corretta = temp.getImg();
+                        break;
+                    case 3:
+                        this.nomeNazione = temp.getImg();
+                        this.corretta = temp.getNome();
+                        break;
+
+                    default:
+                        this.nomeNazione = "errore";
+                        this.corretta = "errore";
+                        break;
+                }
+
+            }
+
+            lista.remove(n);
+        }
+    }
+
     public boolean isCheck() {
         return check;
     }

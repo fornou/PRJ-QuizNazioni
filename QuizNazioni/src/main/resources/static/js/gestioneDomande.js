@@ -64,7 +64,10 @@ document.addEventListener("DOMContentLoaded", function () {
                     </div>
 
                     <div class="row" id="risposte-list">
-                            ${domanda.risposte.map((risposta, i) => `<div class="col-12 mb-3"><button class="btn btn-primary" onclick="checkRisposta(${index}, '${risposta}', this)">${risposta}</button></div>`).join("")}
+                            ${domanda.risposte.map((risposta, i) => 
+                            `<div class="col-12 mb-3"><button class="btn btn-primary" onclick="checkRisposta(${index}, '${risposta}', this)">
+                                ${risposta}
+                            </button></div>`).join("")}
                     </div>
                 `;
             }
