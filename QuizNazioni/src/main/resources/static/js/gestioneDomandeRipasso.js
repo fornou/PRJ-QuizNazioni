@@ -23,7 +23,7 @@ function mostraDomanda(indice) {
     let headerDomanda = `
     <div class="row">
         <div class="col">
-            <span class="badge bg-primary">${indice + 1}/10</span>
+            <span class="badge bg-primary" id="numero-domanda">Domanda: ${indice + 1}</span>
         </div>
         <div class="col">
             <span class="badge bg-success" id="corrette">Corrette: ${corrette}</span>
@@ -144,8 +144,6 @@ function verificaRisposta(risposta, corretta, button, fromHistory = false) {
     // Disabilita tutti i pulsanti per evitare ulteriori clic
     let buttons = document.querySelectorAll('#domanda-container button');
     buttons.forEach(btn => btn.disabled = true);
-
-    
 }
 
 function prevDomanda() {
