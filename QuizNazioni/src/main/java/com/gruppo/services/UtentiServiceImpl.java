@@ -37,7 +37,10 @@ public class UtentiServiceImpl implements UtentiService {
 
 	@Override
 	public Utenti insertUsers(String username, String password) {
-		Utenti dto = new Utenti(username, password);
+		Utenti dto = new Utenti();
+		dto.setUsername(username);
+		dto.setPassword(password);
+		dto.setRecord_memory(100000);
 		return dao.save(dto);
 	}
 

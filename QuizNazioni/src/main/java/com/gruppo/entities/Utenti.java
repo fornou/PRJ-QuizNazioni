@@ -24,11 +24,6 @@ public class Utenti {
 	
 
 
-	public Utenti(String username, String password) {
-		super();
-		this.username = username;
-		this.password = password;
-	}
 
 	// getters e setters
 
