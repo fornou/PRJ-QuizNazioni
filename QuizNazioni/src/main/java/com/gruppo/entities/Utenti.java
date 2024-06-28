@@ -12,6 +12,7 @@ public class Utenti {
 	private int id;
 	private String username;
 	private String password;
+
 	private int quiz_tentati;
 	private int quiz_passati;
 	private int quiz_bocciati;
@@ -19,6 +20,15 @@ public class Utenti {
 	private int risposte_errate;
 	private int partite_memory;
 	private int record_memory;
+	
+	
+
+
+	public Utenti(String username, String password) {
+		super();
+		this.username = username;
+		this.password = password;
+	}
 
 	// getters e setters
 
@@ -78,6 +88,8 @@ public class Utenti {
 		this.record_memory = record_memory;
 	}
 
+	
+	
 	public int getId() {
 		return id;
 	}

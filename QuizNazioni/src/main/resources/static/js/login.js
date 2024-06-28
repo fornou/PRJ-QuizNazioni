@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
             params.append(key, value);
         }
 
-        fetch('/api/login', {
+        fetch('/api/signin', {
             method: 'POST',
             body: params
         })

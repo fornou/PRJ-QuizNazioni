@@ -3,11 +3,13 @@ package com.gruppo.controllers;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.ErrorResponseException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -61,6 +63,19 @@ public class NazioneREST {
 
         // Reindirizza alla pagina di index
         response.sendRedirect("/index.html");
+    }
+    
+    @PostMapping("/signin")
+    public ResponseEntity<Utenti> signIn(@RequestParam String username, @RequestParam String password,HttpSession sesion){
+    	Set<String> listaUtenti = utentiService.getUtenti();
+    	if(listaUtenti.contains(username)) {
+    		return new ResponseEntity<Utenti>(HttpStatus.CONFLICT);
+    	}
+    	
+    	utentiService.insertUsers(username, password);
+    	login(username, password, sesion);
+    	return new ResponseEntity<Utenti>(HttpStatus.OK);
+    	
     }
 
 
@@ -262,6 +277,8 @@ public class NazioneREST {
     private boolean isAuthenticated(HttpSession session) {
         return session.getAttribute("user") != null;
     }
+    
+    
     
   
 }
