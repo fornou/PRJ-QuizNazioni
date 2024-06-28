@@ -21,6 +21,7 @@ import com.gruppo.entities.Memory;
 import com.gruppo.entities.Nazione;
 import com.gruppo.entities.NomePopolazioneDTO;
 import com.gruppo.entities.Quiz;
+import com.gruppo.entities.StatisticheDTO;
 import com.gruppo.entities.Utenti;
 import com.gruppo.services.NazioniService;
 import com.gruppo.services.UtentiService;
@@ -72,6 +73,15 @@ public class NazioneREST {
     	
     	utentiService.insertUsers(username, password);
     	login(username, password, sesion);
+    	return new ResponseEntity<Utenti>(HttpStatus.OK);
+    	
+    }
+    
+    @PostMapping("/saveStat")
+    public ResponseEntity<Utenti> putStat(@RequestParam StatisticheDTO statDTO, HttpSession session){
+    	Utenti u = (Utenti) session.getAttribute("user");
+    	utentiService.salvaStat(statDTO,u.getId());
+    	
     	return new ResponseEntity<Utenti>(HttpStatus.OK);
     	
     }
