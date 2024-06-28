@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-QuizNazioniApplication<quiz-nazioni>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.gruppo.QuizNazioniApplication",
+            "projectName": "quiz-nazioni",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
