@@ -1,0 +1,21 @@
+@charset "UTF-8";
+img{
+	width: 150px; /* Larghezza fissa per tutte le immagini */
+    height: 100px; /* Altezza fissa per tutte le immagini */
+    object-fit: contain; /* Adatta l'immagine al contenitore senza ritagliare */
+    border: 3px solid black; /* Bordo di 1px */
+    margin: 10px; /* Margine per distanziare le immagini */
+}
+
+h1{
+    text-align: center;
+}
+
+.continente {
+    margin-bottom: 30px;
+}
+
+.continente h2 {
+    text-align: left;
+    margin-bottom: 10px;
+}

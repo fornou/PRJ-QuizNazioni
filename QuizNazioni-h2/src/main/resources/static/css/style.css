@@ -1,0 +1,94 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.main {
+    margin: 40px;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    text-align: center;
+}
+
+.form-container {
+    padding: 40px;
+    border: 2px solid rgb(15, 200, 55);
+    border-radius: 5px;
+}
+
+/* Stile per il contenitore principale */
+#nazioniContainer {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 2px solid rgb(15, 200, 55);
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+/* Stile per la tabella delle nazioni */
+table {
+    color: black;
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+table th,
+table td {
+    padding: 8px;
+    text-align: center;
+    border-bottom: 1px solid #363636;
+}
+
+ul li {
+    list-style-type: none;
+}
+
+.game-board {
+    display: grid;
+    grid-template-columns: repeat(4, 200px);
+    grid-template-rows: repeat(4, 150px);
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.carta {
+    width: 100%;
+    height: 100%;
+    position: static;
+    perspective: 1000px;
+    cursor: pointer;
+}
+
+.front-face,
+.back-face {
+    width: 100%;
+    height: 100%;
+    position: static;
+    perspective: 1000px;
+    backface-visibility: hidden;
+    border-radius: 10px;
+}
+
+.back-face {
+    border: 5px solid #198754;
+    background-color: #6b6a6a;
+    background-image: url('./img/mondo.png');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.front-face{
+    background-color: white;
+}
+
+.hidden {
+    display: none;
+}
