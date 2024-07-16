@@ -143,26 +143,6 @@ function resetBoard() {
             console.log("datiStringa: " + datiStringa);
             localStorage.setItem("datiUtente", datiStringa);
 
-            fetch("/api/saveStat", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json", // Imposta il tipo di contenuto a JSON
-                },
-                body: datiStringa,
-            })
-                .then((response) => {
-                    if (response.ok) {
-                        console.log("Dati salvati nel db");
-                    } else {
-                        return response.text().then((text) => {
-                            throw new Error(text);
-                        });
-                    }
-                })
-                .catch((error) => {
-                    alert("Errore nel salvataggio dei dati nel db: " + error.message);
-                });
-
             console.log("Dati Salvati");
         } else {
             console.log("Errore nel prendere i dati utente");

@@ -13,22 +13,19 @@ document.addEventListener("DOMContentLoaded", function () {
     } else {
         console.log("Nessun dato trovato");
 
-        fetch("/api/getStat")
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error(`Errore HTTP ${response.status} - ${response.statusText}`);
-                }
-                return response.json();
-            })
-            .then((data) => {
-                const datiStringa = JSON.stringify(data);
+        const datiUtente = {
+            quiz_tentati: 0,
+            quiz_passati: 0,
+            risposte_corrette: 0,
+            risposte_errate: 0,
+            partite_memory: 0,
+            record_memory: 100000,
+        };
 
-                localStorage.setItem("datiUtente", datiStringa);
+        const datiStringa = JSON.stringify(datiUtente);
 
-                console.log("Caricati dati azzerati");
-            })
-            .catch((error) => {
-                console.error("Errore durante la richiesta FETCH:", error);
-            });
+        localStorage.setItem("datiUtente", datiStringa);
+
+        console.log("Caricati dati azzerati");
     }
 });

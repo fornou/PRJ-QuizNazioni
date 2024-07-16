@@ -1,0 +1,25 @@
+#quizContainer {
+    background-color: #343a40; /* Colore di sfondo */
+    color: white; /* Colore del testo */
+    padding: 20px; /* Spaziatura interna */
+    border-radius: 8px; /* Bordi arrotondati */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombra leggera */
+    margin: 0 auto; /* Centrare il contenuto */
+    max-width: 600px; /* Limitare la larghezza massima */
+}
+
+#quizContainer .form-label {
+    font-size: 1.25rem; /* Dimensione del testo per label */
+}
+
+#quizContainer .form-select {
+    width: 100%; /* Occupa tutta la larghezza disponibile */
+    font-size: 1rem; /* Dimensione del testo per select */
+    padding: 0.5rem; /* Spaziatura interna */
+}
+
+@media (max-width: 768px) {
+    #quizContainer {
+        padding: 15px; /* Spaziatura interna ridotta per dispositivi più piccoli */
+    }
+}
