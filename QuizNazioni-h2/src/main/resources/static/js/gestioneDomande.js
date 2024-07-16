@@ -6,9 +6,49 @@ document.addEventListener("DOMContentLoaded", function () {
     let domande = [];
     let corrette = 0;
     let errate = 0;
+    let tempoRimanente = 60; // 1 minuto
 
     const titolo = document.getElementById("titolo");
     titolo.textContent += continente;
+
+    // Aggiungi il timer al DOM
+    const timerContainer = document.createElement("div");
+    timerContainer.style.position = "absolute";
+    timerContainer.style.top = "10px";
+    timerContainer.style.right = "10px";
+    timerContainer.style.fontSize = "1.5em";
+    timerContainer.style.fontWeight = "bold";
+    timerContainer.id = "timer";
+    document.body.appendChild(timerContainer);
+
+    function aggiornaTimer() {
+        let minuti = Math.floor(tempoRimanente / 60);
+        let secondi = tempoRimanente % 60;
+        timerContainer.textContent = `${minuti}:${secondi < 10 ? '0' : ''}${secondi}`;
+        if (tempoRimanente > 0) {
+            tempoRimanente--;
+        } else {
+            clearInterval(timerInterval);
+            fineTempo();
+        }
+    }
+
+    function fineTempo() {
+        // Mostra il modal
+        const timeUpModal = new bootstrap.Modal(document.getElementById('timeUpModal'));
+        timeUpModal.show();
+
+        // Disabilita tutti i pulsanti di risposta
+        document.querySelectorAll("#risposte-list button").forEach((btn) => {
+            btn.disabled = true;
+        });
+        // Rendi i pulsanti di navigazione non cliccabili
+        document.getElementById("prev-button").disabled = true;
+        document.getElementById("next-button").disabled = true;
+    }
+
+    const timerInterval = setInterval(aggiornaTimer, 1000);
+    aggiornaTimer(); // Esegui immediatamente per mostrare il timer iniziale
 
     function mostraDomanda(index) {
         const domandaContainer = document.getElementById("domanda-container");
