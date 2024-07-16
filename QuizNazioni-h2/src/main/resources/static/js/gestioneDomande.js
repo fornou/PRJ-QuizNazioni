@@ -6,25 +6,54 @@ document.addEventListener("DOMContentLoaded", function () {
     let domande = [];
     let corrette = 0;
     let errate = 0;
-    let tempoRimanente = 60; // 1 minuto
+    let tempoRimanente;
+    let timerInterval;
 
     const titolo = document.getElementById("titolo");
     titolo.textContent += continente;
 
-    // Aggiungi il timer al DOM
     const timerContainer = document.createElement("div");
-    timerContainer.style.position = "absolute";
-    timerContainer.style.top = "10px";
-    timerContainer.style.right = "10px";
-    timerContainer.style.fontSize = "1.5em";
-    timerContainer.style.fontWeight = "bold";
     timerContainer.id = "timer";
     document.body.appendChild(timerContainer);
+
+    const difficoltaSelect = document.getElementById('difficolta');
+    const giocaButton = document.getElementById('btn-gioca');
+
+    giocaButton.addEventListener('click', startQuiz);
+
+    function startQuiz() {
+        const selectedDifficulty = difficoltaSelect.value;
+        if (!selectedDifficulty) {
+            alert("Seleziona una difficoltà per iniziare il quiz!");
+            return;
+        }
+        tempoRimanente = parseInt(selectedDifficulty);
+        aggiornaTimer();
+        timerInterval = setInterval(aggiornaTimer, 1000);
+        mostraDomanda(currentQuestionIndex);
+        
+        // Nascondi solo il menu a tendina e il pulsante "Gioca"
+        difficoltaSelect.style.display = "none";
+        giocaButton.style.display = "none";
+
+        document.getElementById("next-button").disabled = false;
+    }
 
     function aggiornaTimer() {
         let minuti = Math.floor(tempoRimanente / 60);
         let secondi = tempoRimanente % 60;
         timerContainer.textContent = `${minuti}:${secondi < 10 ? '0' : ''}${secondi}`;
+
+        if (tempoRimanente <= 10) {
+            timerContainer.classList.add('danger');
+            timerContainer.classList.remove('warning');
+        } else if (tempoRimanente <= 30) {
+            timerContainer.classList.add('warning');
+            timerContainer.classList.remove('danger');
+        } else {
+            timerContainer.classList.remove('warning', 'danger');
+        }
+
         if (tempoRimanente > 0) {
             tempoRimanente--;
         } else {
@@ -34,21 +63,15 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function fineTempo() {
-        // Mostra il modal
         const timeUpModal = new bootstrap.Modal(document.getElementById('timeUpModal'));
         timeUpModal.show();
 
-        // Disabilita tutti i pulsanti di risposta
         document.querySelectorAll("#risposte-list button").forEach((btn) => {
             btn.disabled = true;
         });
-        // Rendi i pulsanti di navigazione non cliccabili
         document.getElementById("prev-button").disabled = true;
         document.getElementById("next-button").disabled = true;
     }
-
-    const timerInterval = setInterval(aggiornaTimer, 1000);
-    aggiornaTimer(); // Esegui immediatamente per mostrare il timer iniziale
 
     function mostraDomanda(index) {
         const domandaContainer = document.getElementById("domanda-container");
@@ -69,7 +92,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (domande.length > 0) {
             const domanda = domande[index];
-            // console.log(domanda);
 
             if (tipo === "bandNaz") {
                 headerDomanda += `
@@ -80,7 +102,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     </div>
 
                     <div class="row" id="risposte-list">
-                        ${domanda.risposte.map((risposta, i) => `<div class="col-6"><button class="btn" onclick="checkRisposta(${index}, '${risposta}', this)" style="background-image: url('${risposta}');  width: 256px; height: 192px; background-repeat: no-repeat; object-fit: contain; background-position: center; transform: scale(0.5);"></button></div>`).join("")}
+                        ${domanda.risposte.map((risposta, i) => `<div class="col-6"><button class="btn" onclick="checkRisposta(${index}, '${risposta}', this)" style="background-image: url('${risposta}'); width: 256px; height: 192px; background-repeat: no-repeat; object-fit: contain; background-position: center; transform: scale(0.5);"></button></div>`).join("")}
                     </div> 
                 `;
             } else if (tipo === "capNaz") {
@@ -161,7 +183,6 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
             if (corrette + errate === 10) {
-                // Gioco Finito
                 const datiUtente = localStorage.getItem("datiUtente");
 
                 if (datiUtente) {
@@ -185,7 +206,6 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
 
-        // Disabilita tutti i pulsanti di risposta dopo la selezione
         document.querySelectorAll("#risposte-list button").forEach((btn) => {
             btn.disabled = true;
             if (btn.textContent == domande[index].rispostaData) {
@@ -205,7 +225,6 @@ document.addEventListener("DOMContentLoaded", function () {
             .then((response) => response.json())
             .then((data) => {
                 domande = data.listaDomande || [];
-                mostraDomanda(currentQuestionIndex);
             })
             .catch((error) => {
                 console.error("Errore durante il recupero delle domande:", error);
