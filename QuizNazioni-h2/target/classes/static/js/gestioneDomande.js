@@ -64,14 +64,10 @@ document.addEventListener("DOMContentLoaded", function () {
                     </div>
 
                     <div class="row" id="risposte-list">
-                            ${domanda.risposte
-                                .map(
-                                    (risposta, i) =>
-                                        `<div class="col-12 mb-3"><button class="btn btn-primary" onclick="checkRisposta(${index}, '${risposta}', this)">
+                            ${domanda.risposte.map((risposta, i) => 
+                            `<div class="col-12 mb-3"><button class="btn btn-primary" onclick="checkRisposta(${index}, '${risposta}', this)">
                                 ${risposta}
-                            </button></div>`
-                                )
-                                .join("")}
+                            </button></div>`).join("")}
                     </div>
                 `;
             }
@@ -141,26 +137,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     const datiStringa = JSON.stringify(dati);
                     localStorage.setItem("datiUtente", datiStringa);
-
-                    fetch("/api/saveStat", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json", // Imposta il tipo di contenuto a JSON
-                        },
-                        body: datiStringa,
-                    })
-                        .then((response) => {
-                            if (response.ok) {
-                                console.log("Dati salvati nel db");
-                            } else {
-                                return response.text().then((text) => {
-                                    throw new Error(text);
-                                });
-                            }
-                        })
-                        .catch((error) => {
-                            alert("Errore nel salvataggio dei dati nel db: " + error.message);
-                        });
 
                     console.log("Dati Salvati");
                 } else {

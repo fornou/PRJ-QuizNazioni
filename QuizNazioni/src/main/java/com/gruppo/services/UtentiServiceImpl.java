@@ -1,6 +1,5 @@
 package com.gruppo.services;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.TreeSet;
@@ -15,27 +14,27 @@ import com.gruppo.repos.UtentiDAO;
 
 @Service
 public class UtentiServiceImpl implements UtentiService {
-	
-	 @Autowired
-	private  UtentiDAO dao;
+
+	@Autowired
+	private UtentiDAO dao;
 
 	@Override
 	public Utenti authenticate(String username, String password) {
-		 Utenti user = dao.findByUsername(username);
-	        if (user != null && user.getPassword().equals(password)) {
-	            return user;
-	        }
-	        return null;
+		Utenti user = dao.findByUsername(username);
+		if (user != null && user.getPassword().equals(password)) {
+			return user;
+		}
+		return null;
 	}
 
 	@Override
 	public Utenti verifyUser(String username, String password) {
-        Utenti user = dao.findByUsername(username);
-        if (user != null && user.getPassword().equals(password)) {
-            return user;
-        }
-        return null;
-    }
+		Utenti user = dao.findByUsername(username);
+		if (user != null && user.getPassword().equals(password)) {
+			return user;
+		}
+		return null;
+	}
 
 	@Override
 	public Utenti insertUsers(String username, String password) {
@@ -48,27 +47,38 @@ public class UtentiServiceImpl implements UtentiService {
 
 	@Override
 	public Set<String> getUtenti() {
-		return new TreeSet<String>(dao.findAll().stream().map(d->d.getUsername()).sorted().toList());
+		return new TreeSet<String>(dao.findAll().stream().map(d -> d.getUsername()).sorted().toList());
 	}
 
 	@Override
-	public Utenti salvaStat(StatisticheDTO dto,int id) {
-		Optional<Utenti> utente =dao.findById(id);
+	public Utenti salvaStat(StatisticheDTO dto, int id) {
+		Optional<Utenti> utente = dao.findById(id);
 		Utenti u = utente.get();
-		
+
 		u.setQuiz_tentati(dto.getQuiz_tentati());
 		u.setQuiz_passati(dto.getQuiz_passati());
-		u.setQuiz_bocciati(dto.getQuiz_bocciati());
 		u.setRisposte_corrette(dto.getRisposte_corrette());
 		u.setRisposte_errate(dto.getRisposte_errate());
 		u.setPartite_memory(dto.getPartite_memory());
 		u.setRecord_memory(dto.getRecord_memory());
 
-		
 		return dao.save(u);
 	}
 
+	@Override
+	public StatisticheDTO getStat(int id) {
+		Optional<Utenti> utente = dao.findById(id);
+		Utenti u = utente.get();
 
-	
+		StatisticheDTO statistiche = new StatisticheDTO();
+		statistiche.setRisposte_corrette(u.getRisposte_corrette());
+		statistiche.setRisposte_errate(u.getRisposte_errate());
+		statistiche.setQuiz_tentati(u.getQuiz_tentati());
+		statistiche.setQuiz_passati(u.getQuiz_passati());
+		statistiche.setPartite_memory(u.getPartite_memory());
+		statistiche.setRecord_memory(u.getRecord_memory());
+
+		return statistiche;
+	}
 
 }

@@ -5,13 +5,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.tomcat.util.json.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.jackson.JsonObjectDeserializer;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -41,7 +44,8 @@ public class NazioneREST {
 
     // Endpoint per il login
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestParam String username, @RequestParam String password, HttpSession session) {
+    public ResponseEntity<String> login(@RequestParam String username, @RequestParam String password,
+            HttpSession session) {
         Utenti user = utentiService.authenticate(username, password);
         if (user != null) {
             session.setAttribute("user", user);
@@ -50,7 +54,7 @@ public class NazioneREST {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
         }
     }
-    
+
     @GetMapping("/logout")
     public void logout(HttpSession session, HttpServletResponse response) throws IOException {
         // Rimuovi l'attributo dell'utente dalla sessione
@@ -63,29 +67,39 @@ public class NazioneREST {
         // todo refresh
         response.sendRedirect("/index.html");
     }
-    
+
     @PostMapping("/signin")
-    public ResponseEntity<Utenti> signIn(@RequestParam String username, @RequestParam String password,HttpSession sesion){
-    	Set<String> listaUtenti = utentiService.getUtenti();
-    	if(listaUtenti.contains(username)) {
-    		return new ResponseEntity<Utenti>(HttpStatus.CONFLICT);
-    	}
-    	
-    	utentiService.insertUsers(username, password);
-    	login(username, password, sesion);
-    	return new ResponseEntity<Utenti>(HttpStatus.OK);
-    	
-    }
-    
-    @PostMapping("/saveStat")
-    public ResponseEntity<Utenti> putStat(@RequestParam StatisticheDTO statDTO, HttpSession session){
-    	Utenti u = (Utenti) session.getAttribute("user");
-    	utentiService.salvaStat(statDTO,u.getId());
-    	
-    	return new ResponseEntity<Utenti>(HttpStatus.OK);
-    	
+    public ResponseEntity<Utenti> signIn(@RequestParam String username, @RequestParam String password,
+            HttpSession sesion) {
+        Set<String> listaUtenti = utentiService.getUtenti();
+        if (listaUtenti.contains(username)) {
+            return new ResponseEntity<Utenti>(HttpStatus.CONFLICT);
+        }
+
+        utentiService.insertUsers(username, password);
+        login(username, password, sesion);
+        return new ResponseEntity<Utenti>(HttpStatus.OK);
+
     }
 
+    @PostMapping("/saveStat")
+    public ResponseEntity<Utenti> putStat(@RequestBody StatisticheDTO stat, HttpSession session) {
+        Utenti u = (Utenti) session.getAttribute("user");
+
+        StatisticheDTO statDTO = stat;
+
+        utentiService.salvaStat(statDTO, u.getId());
+
+        return new ResponseEntity<Utenti>(HttpStatus.OK);
+
+    }
+
+    @GetMapping("/getStat")
+    public StatisticheDTO getStat(HttpSession session) {
+        Utenti u = (Utenti) session.getAttribute("user");
+
+        return utentiService.getStat(u.getId());
+    }
 
     // Endpoint per verificare se l'utente è autenticato
     @GetMapping("/isLoggedIn")
@@ -214,6 +228,7 @@ public class NazioneREST {
         Quiz quiz = new Quiz(listaDomande, 0);
         return new ResponseEntity<>(quiz, HttpStatus.OK);
     }
+
     @GetMapping("/ripasso")
     public ResponseEntity<ClassPathResource> getPaginaRipasso() {
         ClassPathResource resource = new ClassPathResource("/static/ripasso.html");
@@ -243,22 +258,24 @@ public class NazioneREST {
         ClassPathResource resource = new ClassPathResource("/static/statistiche.html");
         return ResponseEntity.ok(resource);
     }
+
     @GetMapping("/login")
     public ResponseEntity<ClassPathResource> getPaginaLogin() {
         ClassPathResource resource = new ClassPathResource("/static/login.html");
         return ResponseEntity.ok(resource);
     }
+
     @GetMapping("/user")
     public ResponseEntity<ClassPathResource> getPaginaUser() {
         ClassPathResource resource = new ClassPathResource("/static/user.html");
         return ResponseEntity.ok(resource);
     }
 
-//    @GetMapping("/index")
-//    public ResponseEntity<ClassPathResource> getIndexPage() {
-//        ClassPathResource resource = new ClassPathResource("/static/index.html");
-//        return ResponseEntity.ok(resource);
-//    }
+    // @GetMapping("/index")
+    // public ResponseEntity<ClassPathResource> getIndexPage() {
+    // ClassPathResource resource = new ClassPathResource("/static/index.html");
+    // return ResponseEntity.ok(resource);
+    // }
 
     @GetMapping("nazioni/continente/popolazione/{continente}")
     public ResponseEntity<List<NomePopolazioneDTO>> getPopolazioneByContinente(@PathVariable String continente,
@@ -285,8 +302,5 @@ public class NazioneREST {
     private boolean isAuthenticated(HttpSession session) {
         return session.getAttribute("user") != null;
     }
-    
-    
-    
-  
+
 }
