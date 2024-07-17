@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
         aggiornaTimer();
         timerInterval = setInterval(aggiornaTimer, 1000);
         mostraDomanda(currentQuestionIndex);
-        
+
         // Nascondi solo il menu a tendina e il pulsante "Gioca"
         difficoltaSelect.style.display = "none";
         giocaButton.style.display = "none";
@@ -183,6 +183,8 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
             if (corrette + errate === 10) {
+                clearInterval(timerInterval); // Stop the timer when the quiz is completed
+
                 const datiUtente = localStorage.getItem("datiUtente");
 
                 if (datiUtente) {

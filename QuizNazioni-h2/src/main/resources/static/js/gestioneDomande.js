@@ -18,7 +18,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const difficoltaSelect = document.getElementById('difficolta');
     const giocaButton = document.getElementById('btn-gioca');
-    const domandaContainer = document.getElementById("domanda-container");
 
     giocaButton.addEventListener('click', startQuiz);
 
@@ -36,9 +35,6 @@ document.addEventListener("DOMContentLoaded", function () {
         // Nascondi solo il menu a tendina e il pulsante "Gioca"
         difficoltaSelect.style.display = "none";
         giocaButton.style.display = "none";
-
-        // Mostra il contenitore delle domande
-        domandaContainer.style.display = "block";
 
         document.getElementById("next-button").disabled = false;
     }
@@ -61,7 +57,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (tempoRimanente > 0) {
             tempoRimanente--;
         } else {
-            fermaTimer();
+            clearInterval(timerInterval);
             fineTempo();
         }
     }
@@ -78,6 +74,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function mostraDomanda(index) {
+        const domandaContainer = document.getElementById("domanda-container");
+
         let headerDomanda = `
         <div class="row">
             <div class="col">
@@ -184,8 +182,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 divErrate.textContent = `Errate: ${errate}`;
             }
 
-            if (corrette + errate === domande.length) {
-                fermaTimer(); // Stop the timer when the quiz is completed
+            if (corrette + errate === 10) {
+                clearInterval(timerInterval); // Stop the timer when the quiz is completed
 
                 const datiUtente = localStorage.getItem("datiUtente");
 
@@ -224,22 +222,11 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     };
 
-    function fermaTimer() {
-        clearInterval(timerInterval);
-    }
-
-    // Nascondi il contenitore delle domande inizialmente
-    domandaContainer.style.display = "none";
-
     if (continente) {
         fetch(`/api/nazioni/${continente}/domande/${tipo}`)
             .then((response) => response.json())
             .then((data) => {
                 domande = data.listaDomande || [];
-                // Non mostrare la prima domanda inizialmente
-                if (domande.length === 0) {
-                    document.getElementById("domanda-container").innerHTML = "<p>Nessuna domanda trovata per il continente specificato.</p>";
-                }
             })
             .catch((error) => {
                 console.error("Errore durante il recupero delle domande:", error);
