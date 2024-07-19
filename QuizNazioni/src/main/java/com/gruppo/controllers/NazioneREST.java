@@ -263,12 +263,6 @@ public class NazioneREST {
         return ResponseEntity.ok(resource);
     }
 
-    @GetMapping("/user")
-    public ResponseEntity<ClassPathResource> getPaginaUser() {
-        ClassPathResource resource = new ClassPathResource("/static/user.html");
-        return ResponseEntity.ok(resource);
-    }
-
     // @GetMapping("/index")
     // public ResponseEntity<ClassPathResource> getIndexPage() {
     // ClassPathResource resource = new ClassPathResource("/static/index.html");

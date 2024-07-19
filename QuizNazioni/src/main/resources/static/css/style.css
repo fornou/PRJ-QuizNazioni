@@ -5,6 +5,7 @@ body {
 }
 
 .main {
+    box-sizing: border-box;
     margin: 40px;
     padding: 20px;
     background-color: #fff;
@@ -14,7 +15,7 @@ body {
 }
 
 .form-container {
-    padding: 40px;
+    padding: none;
     border: 2px solid rgb(15, 200, 55);
     border-radius: 5px;
 }

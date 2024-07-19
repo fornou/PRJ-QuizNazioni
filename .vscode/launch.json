@@ -9,6 +9,16 @@
             "projectName": "quiz-nazioni",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-QuizNazioniApplication<QuizNazioni>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.gruppo.QuizNazioniApplication",
+            "projectName": "QuizNazioni",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
         }
     ]
 }

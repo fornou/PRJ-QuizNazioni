@@ -206,3 +206,21 @@ INSERT INTO `nazioniquiz` VALUES ('AE','United Arab Emirates','Asia','Abu Dhabi'
 ('NR','Nauru','Oceania','Yaren',10929,'https://flagcdn.com/256x192/nr.png',193),
 ('KN','Saint Kitts and Nevis','Americas','Basseterre',52823,'https://flagcdn.com/256x192/kn.png',194),
 ('SM','San Marino','Europe','San Marino',33931,'https://flagcdn.com/256x192/sm.png',195);
+
+
+-- DROP TABLE IF EXISTS `users`;
+
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `username` varchar(20) NOT NULL UNIQUE,
+  `password` varchar(20) NOT NULL,
+  `quiz_tentati` int DEFAULT '0',
+  `quiz_passati` int DEFAULT '0',
+  `risposte_corrette` int DEFAULT '0',
+  `risposte_errate` int DEFAULT '0',
+  `partite_memory` int DEFAULT '0',
+  `record_memory` int DEFAULT '0',
+  PRIMARY KEY (`id`)
+);
+
+-- INSERT INTO `users` VALUES (1,'testuser','password123',11,4,3,7,0,0),(3,'lorenzo','quert123',0,0,0,0,0,0),(4,'Bruzzi','123',13,4,9,21,0,0),(5,'','',0,0,0,0,0,0),(6,'forno','miao',0,0,0,0,0,0);

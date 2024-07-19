@@ -133,7 +133,7 @@ function resetBoard() {
 
             dati["partite_memory"] += 1;
 
-            if (tentativi < dati["record_memory"]) {
+            if (dati["record_memory"] == 0 || tentativi < dati["record_memory"]) {
                 dati["record_memory"] = tentativi;
             }
 
@@ -142,6 +142,26 @@ function resetBoard() {
             const datiStringa = JSON.stringify(dati);
             console.log("datiStringa: " + datiStringa);
             localStorage.setItem("datiUtente", datiStringa);
+
+            fetch("/api/saveStat", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json", // Imposta il tipo di contenuto a JSON
+                },
+                body: datiStringa,
+            })
+                .then((response) => {
+                    if (response.ok) {
+                        console.log("Dati salvati nel db");
+                    } else {
+                        return response.text().then((text) => {
+                            throw new Error(text);
+                        });
+                    }
+                })
+                .catch((error) => {
+                    alert("Errore nel salvataggio dei dati nel db: " + error.message);
+                });
 
             console.log("Dati Salvati");
         } else {
