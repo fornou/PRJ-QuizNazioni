@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         document.getElementById("next-button").disabled = false;
     }
-
+	//aggiorna il timer e cambia lo spondo 
     function aggiornaTimer() {
         let minuti = Math.floor(tempoRimanente / 60);
         let secondi = tempoRimanente % 60;
